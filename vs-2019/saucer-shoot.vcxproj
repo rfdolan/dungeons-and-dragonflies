@@ -152,9 +152,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="game.h" />
+    <ClInclude Include="Hero.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\game.cpp" />
+    <ClCompile Include="Hero.cpp" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
