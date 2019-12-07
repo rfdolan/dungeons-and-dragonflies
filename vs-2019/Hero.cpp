@@ -7,6 +7,7 @@
 // Game includes
 #include "game.h"
 #include "Hero.h"
+#include "EventPlayerHit.h"
 
 
 Hero::Hero()
@@ -16,11 +17,15 @@ Hero::Hero()
 	stopAnimation(true);
 	setSpeed(0);
 	setAltitude(4);
+	walkSprite = true;
 	// Need to control Hero with keyboard.
 	registerInterest(df::KEYBOARD_EVENT);
 
 	// Need to update move countdown each step.
 	registerInterest(df::STEP_EVENT);
+
+	//need to see if monster hit 
+	registerInterest(PLAYER_HIT_EVENT);
 
 }
 
@@ -34,8 +39,24 @@ int Hero::eventHandler(const df::Event* p_e)
 
 	}
 	if (p_e->getType() == df::STEP_EVENT) {
+		//setSprite("walk");
+		//stopAnimation(false);
 		step();
+		
+		
 		return 1;
+	}
+	if (p_e->getType() == PLAYER_HIT_EVENT) {
+		//log 
+		LM.writeLog("Hero was hit");
+		
+		//temporarly change color of hero 
+		setSprite("hurt");
+		walkSprite = false;
+		//stopAnimation(false);
+
+		//TODO: decrease hunger 
+
 	}
 }
 
@@ -139,6 +160,10 @@ void Hero::move(const df::EventKeyboard* p_keyboard_event)
 
 void Hero::step()
 {
-	// Do step things
+	//make sure we are in right sprite 
+	if (!walkSprite) {
+		setSprite("walk");
+		walkSprite = true;
+	}
 }
 
