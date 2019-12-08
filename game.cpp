@@ -221,7 +221,7 @@ df::Vector generateMove(Map* m, df::Vector curr_pos) {
 	// Add one Monster
 	//TODO generate a random number of monsters?
 	//Monster* p_monster = new Monster(p_hero);
-	placeObject(new Monster(p_hero));
+	//placeObject(new Monster(p_hero));
 
 }
 
