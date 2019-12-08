@@ -84,6 +84,9 @@ void populateWorld() {
 
 	Hero* p_hero = new Hero;
 
+	
+	//populate hunger
+	new Hunger;
 
 	// Generate world.
 	createMap(p_hero);
@@ -151,7 +154,12 @@ void createMap(Hero *p_hero) {
 		placed = placeStairs(m, start_pos);
 	}
 
-	
+	// Add one Monster
+	//TODO generate a random number of monsters?
+	Monster* p_monster = new Monster(p_hero);
+	//placeObject(new Monster(p_hero));
+	p_monster->setPosition(df::Vector(startX * ROOM_WIDTH + 50, startY * ROOM_HEIGHT + 10));
+
 
 	m->create();
 }
@@ -226,14 +234,6 @@ df::Vector generateMove(Map* m, df::Vector curr_pos) {
 	m->connectSpacesAt(curr_pos, target_space);
 
 	return target_space;
-
-	// Add one Monster
-	//TODO generate a random number of monsters?
-	//Monster* p_monster = new Monster(p_hero);
-	//placeObject(new Monster(p_hero));
-
-	//populate hunger
-	new Hunger;
 	
 
 }
