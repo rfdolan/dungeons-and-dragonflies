@@ -3,11 +3,15 @@
 #include "EventStep.h"
 #include "GameManager.h"
 #include "LogManager.h"
+#include "WorldManager.h"
 
 // Game includes
 #include "game.h"
 #include "Hero.h"
 #include "EventPlayerHit.h"
+#include "EventHeroMoved.h"
+#include "AttackRange.h"
+#include "EventMonsterHit.h"
 
 
 Hero::Hero()
@@ -18,6 +22,9 @@ Hero::Hero()
 	setSpeed(0);
 	setAltitude(4);
 	walkSprite = true;
+	m_attackObj = NULL;
+	m_attackObj_lifetime = ATTACK_OBJ_LIFETIME;
+
 	// Need to control Hero with keyboard.
 	registerInterest(df::KEYBOARD_EVENT);
 
@@ -27,6 +34,8 @@ Hero::Hero()
 	//need to see if monster hit 
 	registerInterest(PLAYER_HIT_EVENT);
 
+	//reset attack obj if it hit monster 
+	registerInterest(MONSTER_HIT_EVENT);
 }
 
 int Hero::eventHandler(const df::Event* p_e)
@@ -55,8 +64,13 @@ int Hero::eventHandler(const df::Event* p_e)
 		walkSprite = false;
 		//stopAnimation(false);
 
-		//TODO: decrease hunger 
-
+	}
+	if (p_e->getType() == MONSTER_HIT_EVENT) {
+		LM.writeLog("Player issued an efficient attack");
+		
+		//reset attack obj 
+		m_attackObj->setSolidness(df::SPECTRAL);
+		m_attackObj_lifetime = ATTACK_OBJ_LIFETIME;
 	}
 }
 
@@ -87,6 +101,7 @@ void Hero::kbd(const df::EventKeyboard* p_keyboard_event)
 	case df::Keyboard::Q:		 // Q to quit.
 		GM.setGameOver();
 		break;
+	case df::Keyboard::A: //attack 
 	case df::Keyboard::UPARROW:	 // up arrow
 	case df::Keyboard::DOWNARROW:	 // down arrow
 	case df::Keyboard::LEFTARROW:	 // left arrow
@@ -103,6 +118,8 @@ void Hero::kbd(const df::EventKeyboard* p_keyboard_event)
 // Movement code based off of movement code from pyramid game
 void Hero::move(const df::EventKeyboard* p_keyboard_event)
 {
+	bool heroMoved = false; //did our hero move?
+
 	LM.writeLog("Movin");
 	switch (p_keyboard_event->getKey()) {
 	case df::Keyboard::UPARROW:
@@ -114,6 +131,9 @@ void Hero::move(const df::EventKeyboard* p_keyboard_event)
 			df::Vector v(getVelocity().getX(), 0);
 			setVelocity(v);
 		}
+
+		heroMoved = true;
+
 		break;
 	case df::Keyboard::DOWNARROW:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
@@ -124,6 +144,9 @@ void Hero::move(const df::EventKeyboard* p_keyboard_event)
 			df::Vector v(getVelocity().getX(), 0);
 			setVelocity(v);
 		}
+
+		heroMoved = true;
+
 		break;
 	case df::Keyboard::LEFTARROW:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
@@ -134,6 +157,8 @@ void Hero::move(const df::EventKeyboard* p_keyboard_event)
 			df::Vector v(0, getVelocity().getY());
 			setVelocity(v);
 		}
+
+		heroMoved = true;
 		break;
 	case df::Keyboard::RIGHTARROW:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
@@ -144,7 +169,20 @@ void Hero::move(const df::EventKeyboard* p_keyboard_event)
 			df::Vector v(0, getVelocity().getY());
 			setVelocity(v);
 		}
+		heroMoved = true;
+
 		break;
+		
+	case df::Keyboard::A:
+		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
+			int x = getPosition().getX();
+			int y = getPosition().getY();
+			df::Vector v(x, y);
+			m_attackObj = new AttackRange(v);
+			m_attackObj_lifetime = ATTACK_OBJ_LIFETIME; //reset life
+		}
+		break;
+		
 	default:
 		break;
 	};
@@ -155,15 +193,33 @@ void Hero::move(const df::EventKeyboard* p_keyboard_event)
 	else
 		stopAnimation(false);
 
+	//check if hunger needs to be decreased
+	if (heroMoved) {
+
+		//send a player moved event 
+		EventHeroMoved heroMoved;
+		WM.onEvent(&heroMoved);
+	}
 	return;
 }
 
 void Hero::step()
 {
+	
 	//make sure we are in right sprite 
 	if (!walkSprite) {
 		setSprite("walk");
 		walkSprite = true;
+	}
+
+	//check if time to delete attack obj
+	if (m_attackObj != NULL) { //does it exist 
+		m_attackObj_lifetime--; //decrease its life 
+		
+		if (m_attackObj_lifetime < 1) { //ready to die
+			m_attackObj->setSolidness(df::SPECTRAL);
+			m_attackObj_lifetime = ATTACK_OBJ_LIFETIME; //reset
+		}
 	}
 }
 

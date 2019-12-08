@@ -1,17 +1,13 @@
 <HEADER>
-frames 2
+frames 1
 width 3
 height 3
 color red
 slowdown 4
 </HEADER>
 <BODY>
- O 
-{|}
+\O/
  | 
-end
- O 
-(|)
 / \
 end
 </BODY>

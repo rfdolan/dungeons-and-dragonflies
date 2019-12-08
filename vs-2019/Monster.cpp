@@ -5,6 +5,7 @@
 #include "utility.h"
 #include "EventCollision.h"
 #include "EventPlayerHit.h"
+#include "EventMonsterHit.h"
 
 // Game includes.
 #include "Monster.h"
@@ -14,6 +15,7 @@ Monster::Monster(Hero* p_hero) {
 	// Basic Muonster attributes.
 	m_move_countdown = MOVE_TIME_WANDER;
 	m_think_countdown = THINK_TIME_WANDER;
+	m_damage_countdown = TAKE_DAMAGE;
 	setType("Monster");
 	setAltitude(3);
 	setSpeed(0);
@@ -21,6 +23,10 @@ Monster::Monster(Hero* p_hero) {
 	// Default sprite, standing.
 	setSprite("monster-walk");
 	stopAnimation(true);
+
+	//dealing with damage 
+	health = 3;
+	currentSprite = 0;
 
 	// Mummy keeps track of Hero.
 	m_p_hero = p_hero;
@@ -35,8 +41,6 @@ Monster::Monster(Hero* p_hero) {
 	m_machine.setOwner(this);
 	m_machine.setState(getStateWander());
 	m_machine.changeState(getStateWander());
-
-	
 
 	// Get step events.
 	registerInterest(df::STEP_EVENT);
@@ -194,5 +198,81 @@ void Monster::hit(const df::EventCollision* p_collision_event) {
 		//create "hit player" event and send to interested objects 
 		EventPlayerHit hitPlayer;
 		WM.onEvent(&hitPlayer);
+	}
+
+	//if attack obj decrease health 
+	if ((p_collision_event->getObject1()->getType()) == "AttackObj") {
+		//decrease health 
+		m_damage_countdown--;
+
+		if (m_damage_countdown < 1) { //time to loose health
+			health--;
+			m_damage_countdown = TAKE_DAMAGE; //reset
+			currentSprite++;
+			//change sprite 
+			switch (currentSprite) {
+			case 1:
+				setSprite("monster-hurt2");
+				stopAnimation(false);
+				break;
+			case 2:
+				setSprite("monster-hurt3");
+				stopAnimation(false);
+				break;
+			case 3:
+				setSprite("monster-hurt3");
+				stopAnimation(false);
+				break;
+			default:
+				//setSprite("monster-hurt3");
+				break;
+			}
+		}
+
+		//send event indicating that at least one monster was hit 
+		EventMonsterHit monsterHit;
+		WM.onEvent(&monsterHit);
+
+		if (health < 1) { //monster is dead 
+			WM.markForDelete(p_collision_event->getObject2()); //delete monster
+		}
+	}
+	if ((p_collision_event->getObject2()->getType()) == "AttackObj") {
+		
+		//decrease health 
+		m_damage_countdown--;
+
+		if (m_damage_countdown < 1) { //time to loose health
+			health--;
+			m_damage_countdown = TAKE_DAMAGE; //reset
+			currentSprite++;
+			//change sprite 
+			switch (currentSprite) {
+			case 1:
+				setSprite("monster-hurt2");
+				stopAnimation(false);
+				break;
+			case 2:
+				setSprite("monster-hurt3");
+				stopAnimation(false);
+				break;
+			case 3:
+				setSprite("monster-hurt3");
+				stopAnimation(false);
+				break;
+			default:
+				break;
+			}
+		}
+		
+
+		//send event indicating that at least one monster was hit 
+		EventMonsterHit monsterHit;
+		WM.onEvent(&monsterHit);
+		
+
+		if (health < 1) { //monster is dead 
+			WM.markForDelete(p_collision_event->getObject1()); //delete monster
+		}
 	}
 }

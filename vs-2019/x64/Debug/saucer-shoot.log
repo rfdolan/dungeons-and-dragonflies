@@ -1,4 +1,1 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(452,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (saucer-shoot.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Hero.cpp
-C:\Users\alega\Documents\Visual Studio 2019\Projects\dungeons-and-dragonflies\vs-2019\Hero.cpp(61): warning C4715: 'Hero::eventHandler': not all control paths return a value
-  saucer-shoot.vcxproj -> C:\Users\alega\Documents\Visual Studio 2019\Projects\dungeons-and-dragonflies\vs-2019\x64\Debug\dungeons-and-dragonflies.exe
+﻿
