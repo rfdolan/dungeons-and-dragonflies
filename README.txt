@@ -1,18 +1,9 @@
-SAUCER SHOOT
-Mark Claypool (WPI)
-2016-2019
+DUNGEONS AND DRAGONFLIES
 
-Saucer Shoot game from Dragonfly tutorial.
+BY RAYMOND DOLAN AND ALEJANDRA GARZA
 
-Tutorial available online:
+FINAL PROJECT FOR IMGD 3000
 
- http://dragonfly.wpi.edu/tutorial/index.html
-
-And in book:
-
- Mark Claypool. Dragonfly - Program a Game Engine from Scratch,
- Interactive Media and Game Development, Worcester Polytechnic
- Institute, 2016. Online at: http://dragonfly.wpi.edu/book/
 
 --------------------------------------------------------------------
 
@@ -37,7 +28,3 @@ vs-2019/ - contains Visual Studio solution files (Microsoft Windows)
 
 --------------------------------------------------------------------
 
-Happy shooting!
-
--- Mark
-claypool@cs.wpi.edu

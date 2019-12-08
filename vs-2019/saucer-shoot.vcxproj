@@ -24,6 +24,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>saucershoot</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>dungeons-and-dragonflies</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -151,9 +152,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AttackRange.h" />
+    <ClInclude Include="EventHeroMoved.h" />
+    <ClInclude Include="EventMonsterHit.h" />
+    <ClInclude Include="EventPlayerHit.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="Hero.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Relationship.h" />
+    <ClInclude Include="Space.h" />
+    <ClInclude Include="Stairs.h" />
+    <ClInclude Include="Wall.h" />
+    <ClInclude Include="Hunger.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="StateChase.h" />
+    <ClInclude Include="StateSearch.h" />
+    <ClInclude Include="StateWander.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\game.cpp" />
+    <ClCompile Include="AttackRange.cpp" />
+    <ClCompile Include="EventHeroMoved.cpp" />
+    <ClCompile Include="EventMonsterHit.cpp" />
+    <ClCompile Include="EventPlayerHit.cpp" />
+    <ClCompile Include="Hero.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Relationship.cpp" />
+    <ClCompile Include="Space.cpp" />
+    <ClCompile Include="Stairs.cpp" />
+    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="Hunger.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="StateChase.cpp" />
+    <ClCompile Include="StateSearch.cpp" />
+    <ClCompile Include="StateWander.cpp" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
