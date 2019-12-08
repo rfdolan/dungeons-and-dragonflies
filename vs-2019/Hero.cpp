@@ -16,6 +16,7 @@ Hero::Hero()
 	stopAnimation(true);
 	setSpeed(0);
 	setAltitude(4);
+	setSolidness(df::SOFT);
 	// Need to control Hero with keyboard.
 	registerInterest(df::KEYBOARD_EVENT);
 
@@ -26,7 +27,6 @@ Hero::Hero()
 
 int Hero::eventHandler(const df::Event* p_e)
 {
-	LM.writeLog("GETTING EVENT");
 	if (p_e->getType() == df::KEYBOARD_EVENT) {
 		const df::EventKeyboard* p_keyboard_event = (const df::EventKeyboard*) p_e;
 		kbd(p_keyboard_event);
@@ -37,6 +37,7 @@ int Hero::eventHandler(const df::Event* p_e)
 		step();
 		return 1;
 	}
+	return 0;
 }
 
 void Hero::stopAnimation(bool stop)

@@ -154,10 +154,18 @@
   <ItemGroup>
     <ClInclude Include="game.h" />
     <ClInclude Include="Hero.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Relationship.h" />
+    <ClInclude Include="Space.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\game.cpp" />
     <ClCompile Include="Hero.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Relationship.cpp" />
+    <ClCompile Include="Space.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
