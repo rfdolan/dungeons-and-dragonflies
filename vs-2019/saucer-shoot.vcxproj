@@ -157,6 +157,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Relationship.h" />
     <ClInclude Include="Space.h" />
+    <ClInclude Include="Stairs.h" />
     <ClInclude Include="Wall.h" />
   </ItemGroup>
   <ItemGroup>
@@ -165,6 +166,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Relationship.cpp" />
     <ClCompile Include="Space.cpp" />
+    <ClCompile Include="Stairs.cpp" />
     <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>

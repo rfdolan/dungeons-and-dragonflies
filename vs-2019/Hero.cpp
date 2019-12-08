@@ -16,12 +16,13 @@ Hero::Hero()
 	stopAnimation(true);
 	setSpeed(0);
 	setAltitude(4);
-	setSolidness(df::SOFT);
+	setSolidness(df::HARD);
 	// Need to control Hero with keyboard.
 	registerInterest(df::KEYBOARD_EVENT);
 
 	// Need to update move countdown each step.
 	registerInterest(df::STEP_EVENT);
+
 
 }
 
