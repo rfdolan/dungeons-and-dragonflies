@@ -152,22 +152,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EventPlayerHit.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="Hero.h" />
+<<<<<<< HEAD
     <ClInclude Include="Map.h" />
     <ClInclude Include="Relationship.h" />
     <ClInclude Include="Space.h" />
     <ClInclude Include="Stairs.h" />
     <ClInclude Include="Wall.h" />
+=======
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="StateChase.h" />
+    <ClInclude Include="StateSearch.h" />
+    <ClInclude Include="StateWander.h" />
+>>>>>>> eb08d54b5fbc55ddc0b5453edf7d0e59a192eced
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\game.cpp" />
+    <ClCompile Include="EventPlayerHit.cpp" />
     <ClCompile Include="Hero.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Relationship.cpp" />
     <ClCompile Include="Space.cpp" />
     <ClCompile Include="Stairs.cpp" />
     <ClCompile Include="Wall.cpp" />
+=======
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="StateChase.cpp" />
+    <ClCompile Include="StateSearch.cpp" />
+    <ClCompile Include="StateWander.cpp" />
+>>>>>>> eb08d54b5fbc55ddc0b5453edf7d0e59a192eced
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
