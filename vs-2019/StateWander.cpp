@@ -33,7 +33,7 @@ StateWander::StateWander()
 
 void StateWander::Enter(df::Object* p_obj)
 {
-	// Set wander sprite(white mummy).
+	// Set wander sprite(white mummy)
 	p_obj->setSprite("monster-walk");
 	p_obj->setSpeed(0);
 	Monster* p_monster = dynamic_cast<Monster *>(p_obj);

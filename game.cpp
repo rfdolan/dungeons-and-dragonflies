@@ -20,6 +20,7 @@
 #include "vs-2019\Wall.h"
 #include "vs-2019\Stairs.h"
 #include "vs-2019\Monster.h"
+#include "vs-2019\Hunger.h"
 
 //functions
 void loadResources();
@@ -62,9 +63,17 @@ void loadResources() {
 	RM.loadSprite("sprites/hero-walk-spr.txt", "walk");
 	RM.loadSprite("sprites/stairs-spr.txt", "stairs");
 	RM.loadSprite("sprites/hero_hurt-spr.txt", "hurt");
+	RM.loadSprite("sprites/hero-attack-spr.txt", "attack");
+
 	//monster sprites
 	RM.loadSprite("sprites/monster-walk-spr.txt", "monster-walk");
 	RM.loadSprite("sprites/monster-chase-spr.txt", "monster-chase");
+	RM.loadSprite("sprites/monster-hurt01-spr.txt", "monster-hurt1");
+	RM.loadSprite("sprites/monster-hurt02-spr.txt", "monster-hurt2");
+	RM.loadSprite("sprites/monster-hurt03-spr.txt", "monster-hurt3");
+
+	//attack object
+	RM.loadSprite("sprites/attack-obj-spr.txt", "attack_obj");
 }
 
 void populateWorld() {
@@ -222,6 +231,10 @@ df::Vector generateMove(Map* m, df::Vector curr_pos) {
 	//TODO generate a random number of monsters?
 	//Monster* p_monster = new Monster(p_hero);
 	//placeObject(new Monster(p_hero));
+
+	//populate hunger
+	new Hunger;
+	
 
 }
 

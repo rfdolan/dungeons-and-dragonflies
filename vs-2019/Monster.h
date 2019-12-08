@@ -26,13 +26,19 @@
 #define THINK_TIME_WANDER 90
 #define SEARCH_SPEED 0.15
 #define SENSE_DISTANCE 12
-#define CHASE_SPEED 0.35
+#define CHASE_SPEED 0.20
+#define TAKE_DAMAGE 2
 
 class Monster : public df::Object {
 private:
 	Hero* m_p_hero;
 	int m_move_countdown;
 	int m_think_countdown;
+	int m_damage_countdown;
+	int health; 
+	int currentSprite;
+
+
 	df::StateMachine m_machine;
 	StateWander m_state_wander;
 	StateChase m_state_chase;
