@@ -73,6 +73,8 @@ void loadResources() {
 	RM.loadSprite("../sprites/monster-hurt03-spr.txt", "monster-hurt3");
 
 	//attack object
+
+	RM.loadMusic(".../music/ambient-1.wav", "ambient-1");
 	RM.loadSprite("../sprites/attack-obj-spr.txt", "attack_obj");
 }
 
@@ -90,6 +92,8 @@ void populateWorld() {
 
 	// Generate world.
 	createMap(p_hero);
+
+	RM.getMusic("ambient-1")->play();
 }
 
 void createTestDungeon() {
