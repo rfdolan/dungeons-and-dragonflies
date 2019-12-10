@@ -60,22 +60,22 @@ int main(void) {
 
 void loadResources() {
 	//hero sprites
-	RM.loadSprite("sprites/hero-walk-spr.txt", "walk");
-	RM.loadSprite("sprites/stairs-spr.txt", "stairs");
-	RM.loadSprite("sprites/hero_hurt-spr.txt", "hurt");
-	RM.loadSprite("sprites/hero-attack-spr.txt", "attack");
+	RM.loadSprite("../sprites/hero-walk-spr.txt", "walk");
+	RM.loadSprite("../sprites/stairs-spr.txt", "stairs");
+	RM.loadSprite("../sprites/hero_hurt-spr.txt", "hurt");
+	RM.loadSprite("../sprites/hero-attack-spr.txt", "attack");
 
 	//monster sprites
-	RM.loadSprite("sprites/monster-walk-spr.txt", "monster-walk");
-	RM.loadSprite("sprites/monster-chase-spr.txt", "monster-chase");
-	RM.loadSprite("sprites/monster-hurt01-spr.txt", "monster-hurt1");
-	RM.loadSprite("sprites/monster-hurt02-spr.txt", "monster-hurt2");
-	RM.loadSprite("sprites/monster-hurt03-spr.txt", "monster-hurt3");
+	RM.loadSprite("../sprites/monster-walk-spr.txt", "monster-walk");
+	RM.loadSprite("../sprites/monster-chase-spr.txt", "monster-chase");
+	RM.loadSprite("../sprites/monster-hurt01-spr.txt", "monster-hurt1");
+	RM.loadSprite("../sprites/monster-hurt02-spr.txt", "monster-hurt2");
+	RM.loadSprite("../sprites/monster-hurt03-spr.txt", "monster-hurt3");
 
 	//attack object
-	RM.loadSprite("sprites/attack-obj-spr.txt", "attack_obj");
 
-	RM.loadMusic("music/ambient-1.wav", "ambient-1");
+	RM.loadMusic(".../music/ambient-1.wav", "ambient-1");
+	RM.loadSprite("../sprites/attack-obj-spr.txt", "attack_obj");
 }
 
 void populateWorld() {
