@@ -5,6 +5,7 @@
 #include "Vector.h"
 #include "Stairs.h"
 #include "Monster.h"
+#include "Food.h"
 
 #include "Object.h"
 #include "Event.h"
@@ -19,6 +20,7 @@ class Map : public df::Object
 private:
 	std::vector<Space> spaces;
 	Stairs *m_stairs;
+	Food* m_food;
 	Hero* m_hero;
 	std::vector<Monster*> m_monsters;
 	

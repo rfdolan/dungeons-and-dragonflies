@@ -6,6 +6,7 @@
 #include "Stairs.h"
 #include "EventStairs.h"
 #include "GameManager.h"
+#include "Food.h"
 
 Map::Map()
 {
@@ -136,7 +137,6 @@ void Map::generateMap(Hero *p_hero) {
 	placeMonsters(start_pos);
 
 
-
 	create();
 	LM.writeLog("DONE CREATING LEVEL GEOMETRY");
 }
@@ -185,12 +185,12 @@ bool Map::placeMonsters(df::Vector start_pos) {
 
 bool Map::placeStairs(df::Vector start_pos) {
 	
-	/*
-	Stairs* stairs = new Stairs(df::Vector(start_pos.getX() * ROOM_WIDTH + 10, start_pos.getY() * ROOM_HEIGHT + 10));
-	m_stairs = stairs;
-	LM.writeLog("Placed stairs in room (%d, %d)", start_pos.getX(), start_pos.getY());
+	
+	Food* food = new Food(df::Vector(start_pos.getX() * ROOM_WIDTH + 10, start_pos.getY() * ROOM_HEIGHT + 10));
+	m_food = food;
+	LM.writeLog("Placed food in room (%d, %d)", start_pos.getX(), start_pos.getY());
 	return true;
-	*/
+	
 	
 	// Place stairs
 	std::vector<Space> spaces =getSpaces();

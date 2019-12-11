@@ -153,10 +153,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AttackRange.h" />
+    <ClInclude Include="EventFoodFound.h" />
     <ClInclude Include="EventHeroMoved.h" />
     <ClInclude Include="EventMonsterHit.h" />
     <ClInclude Include="EventPlayerHit.h" />
     <ClInclude Include="EventStairs.h" />
+    <ClInclude Include="Food.h" />
     <ClInclude Include="FloorNum.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="Hero.h" />
@@ -174,10 +176,12 @@
   <ItemGroup>
     <ClCompile Include="..\game.cpp" />
     <ClCompile Include="AttackRange.cpp" />
+    <ClCompile Include="EventFoodFound.cpp" />
     <ClCompile Include="EventHeroMoved.cpp" />
     <ClCompile Include="EventMonsterHit.cpp" />
     <ClCompile Include="EventPlayerHit.cpp" />
     <ClCompile Include="EventStairs.cpp" />
+    <ClCompile Include="Food.cpp" />
     <ClCompile Include="FloorNum.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Map.cpp" />
