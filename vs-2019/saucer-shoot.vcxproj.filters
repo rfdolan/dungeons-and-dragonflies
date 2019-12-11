@@ -20,6 +20,7 @@
     <ClCompile Include="EventStairs.cpp" />
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="EventFoodFound.cpp" />
+    <ClCompile Include="EventBigFood.cpp" />
     <ClCompile Include="FloorNum.cpp" />
 
   </ItemGroup>
@@ -43,6 +44,8 @@
     <ClInclude Include="EventStairs.h" />
     <ClInclude Include="Food.h" />
     <ClInclude Include="EventFoodFound.h" />
+    <ClInclude Include="EventBigFood.h" />
     <ClInclude Include="FloorNum.h" />
+
   </ItemGroup>
 </Project>
