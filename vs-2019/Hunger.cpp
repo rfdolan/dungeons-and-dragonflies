@@ -9,6 +9,7 @@
 #include "EventPlayerHit.h"
 #include "EventHeroMoved.h"
 #include "EventMonsterHit.h"
+#include "EventFoodFound.h"
 
 Hunger::Hunger() {
 	//view object	
@@ -30,6 +31,9 @@ Hunger::Hunger() {
 	//decrease hunger if monster was hit
 	//(meaning player used attack)
 	registerInterest(MONSTER_HIT_EVENT);
+
+	//want to know if food was found
+	registerInterest(FOOD_FOUND_EVENT);
 }
 
 //Handle event
@@ -52,6 +56,13 @@ int Hunger::eventHandler(const df::Event* p_e) {
 		setValue(getValue() - 5); //decrease by 1.
 		return 1;
 	}
+
+	//increase hunger if hero 
+	if (p_e->getType() == FOOD_FOUND_EVENT) {
+		setValue(getValue() + 3);
+		return 1;
+	}
+
 	//if get here, have ignored this event 
 	return 0;
 }

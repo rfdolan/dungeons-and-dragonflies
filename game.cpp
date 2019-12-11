@@ -21,6 +21,7 @@
 #include "vs-2019\Stairs.h"
 #include "vs-2019\Monster.h"
 #include "vs-2019\Hunger.h"
+#include "vs-2019\Food.h"
 
 //functions
 void loadResources();
@@ -72,9 +73,11 @@ void loadResources() {
 	RM.loadSprite("../sprites/monster-hurt02-spr.txt", "monster-hurt2");
 	RM.loadSprite("../sprites/monster-hurt03-spr.txt", "monster-hurt3");
 
-	//attack object
+	//other
+	RM.loadSprite("../sprites/food-spr.txt", "food");
 
-	RM.loadMusic(".../music/ambient-1.wav", "ambient-1");
+	//attack object
+	RM.loadMusic("../music/ambient-1.wav", "ambient-1");
 	RM.loadSprite("../sprites/attack-obj-spr.txt", "attack_obj");
 }
 
@@ -132,6 +135,7 @@ void createTestDungeon() {
 void createMap(Hero *p_hero) {
 	//createTestDungeon();
 	Map* m = new Map();
+	LM.writeLog("I am here");
 
 	// Create start.
 	int startX = rand() % MAP_WIDTH;
@@ -164,8 +168,8 @@ void createMap(Hero *p_hero) {
 	Monster* p_monster = new Monster(p_hero);
 	//placeObject(new Monster(p_hero));
 	p_monster->setPosition(df::Vector(startX * ROOM_WIDTH + 50, startY * ROOM_HEIGHT + 10));
-
-
+	
+	
 	m->create();
 }
 
@@ -181,7 +185,10 @@ bool placeStairs(Map* m, df::Vector start_pos) {
 					df::Vector room_pos = it->getMapPos();
 					// Place stairs
 					Stairs* stairs = new Stairs(df::Vector(room_pos.getX() * ROOM_WIDTH + 10, room_pos.getY() * ROOM_HEIGHT + 5));
-					LM.writeLog("Placed stairs in room (%d, %d)", room_pos.getX(), room_pos.getY());
+					LM.writeLog("Placed stairs in room---- (%d, %d)", room_pos.getX(), room_pos.getY());
+					
+					
+					
 					return true;
 				}
 			}
