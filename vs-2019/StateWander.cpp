@@ -48,14 +48,14 @@ void StateWander::Enter(df::Object* p_obj)
 void StateWander::Execute(df::Object* p_obj)
 {
 	//debugging 
-	LM.writeLog("In StateWander Execute");
+	//LM.writeLog("In StateWander Execute");
 
 	// This state deals with a Monster
 	Monster* p_monster = dynamic_cast<Monster *>(p_obj);
 
 	// Start thinking.
 	if (p_monster->getMoveCountdown() <= 0 && !isThinking) {
-		LM.writeLog("Start thinking");
+		//LM.writeLog("Start thinking");
 		// Stop moving.
 		p_monster->setSpeed(0);
 		p_monster->stopAnimation(true);
@@ -67,7 +67,7 @@ void StateWander::Execute(df::Object* p_obj)
 
 	// Start moving
 	if (p_monster->getThinkCountdown() <= 0 && isThinking) {
-		LM.writeLog("Start walking");
+		//LM.writeLog("Start walking");
 		// That's enough thinking, choose a direction and start moving.
 		p_monster->setDirection(chooseDirection());
 		p_monster->setSpeed(WANDER_SPEED);

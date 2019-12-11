@@ -1,119 +1,41 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="..\game.cpp" />
+    <ClCompile Include="AttackRange.cpp" />
+    <ClCompile Include="EventHeroMoved.cpp" />
+    <ClCompile Include="EventMonsterHit.cpp" />
+    <ClCompile Include="EventPlayerHit.cpp" />
+    <ClCompile Include="Hero.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Relationship.cpp" />
+    <ClCompile Include="Space.cpp" />
+    <ClCompile Include="Stairs.cpp" />
+    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="Hunger.cpp" />
+    <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="StateChase.cpp" />
+    <ClCompile Include="StateSearch.cpp" />
+    <ClCompile Include="StateWander.cpp" />
+    <ClCompile Include="EventStairs.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Hero.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Space.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Relationship.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Wall.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Stairs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StateWander.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StateSearch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StateChase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EventPlayerHit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Hunger.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EventHeroMoved.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AttackRange.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EventMonsterHit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Hero.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Space.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Relationship.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Wall.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Stairs.h">
-    <ClInclude Include="Monster.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StateWander.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StateSearch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StateChase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EventPlayerHit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Hunger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EventHeroMoved.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AttackRange.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EventMonsterHit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="AttackRange.h" />
+    <ClInclude Include="EventHeroMoved.h" />
+    <ClInclude Include="EventMonsterHit.h" />
+    <ClInclude Include="EventPlayerHit.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="Hero.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="Relationship.h" />
+    <ClInclude Include="Space.h" />
+    <ClInclude Include="Stairs.h" />
+    <ClInclude Include="Wall.h" />
+    <ClInclude Include="Hunger.h" />
+    <ClInclude Include="Monster.h" />
+    <ClInclude Include="StateChase.h" />
+    <ClInclude Include="StateSearch.h" />
+    <ClInclude Include="StateWander.h" />
+    <ClInclude Include="EventStairs.h" />
   </ItemGroup>
 </Project>

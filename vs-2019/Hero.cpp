@@ -1,6 +1,7 @@
 // Engine includes
 #include "EventKeyboard.h"
 #include "EventStep.h"
+#include "EventCollision.h"
 #include "GameManager.h"
 #include "LogManager.h"
 #include "WorldManager.h"
@@ -12,6 +13,7 @@
 #include "EventHeroMoved.h"
 #include "AttackRange.h"
 #include "EventMonsterHit.h"
+#include "EventStairs.h"
 
 
 Hero::Hero()
@@ -37,6 +39,9 @@ Hero::Hero()
 
 	//reset attack obj if it hit monster 
 	registerInterest(MONSTER_HIT_EVENT);
+
+	// Register interest in collisions for stairs
+	registerInterest(df::COLLISION_EVENT);
 }
 
 int Hero::eventHandler(const df::Event* p_e)
@@ -63,6 +68,7 @@ int Hero::eventHandler(const df::Event* p_e)
 		setSprite("hurt");
 		walkSprite = false;
 		//stopAnimation(false);
+		return 1;
 
 	}
 	if (p_e->getType() == MONSTER_HIT_EVENT) {
@@ -71,6 +77,13 @@ int Hero::eventHandler(const df::Event* p_e)
 		//reset attack obj 
 		m_attackObj->setSolidness(df::SPECTRAL);
 		m_attackObj_lifetime = ATTACK_OBJ_LIFETIME;
+		return 1;
+	}
+	if (p_e->getType() == df::COLLISION_EVENT) {
+		const df::EventCollision* p_collision_event = (const df::EventCollision*) p_e;
+		col(p_collision_event);
+		return 1;
+
 	}
 	return 0;
 }
@@ -97,7 +110,7 @@ void Hero::stopAnimation(bool stop)
 
 void Hero::kbd(const df::EventKeyboard* p_keyboard_event)
 {
-	LM.writeLog("KEYBOARD EVENT");
+	//LM.writeLog("KEYBOARD EVENT");
 	switch (p_keyboard_event->getKey()) {
 	case df::Keyboard::Q:		 // Q to quit.
 		GM.setGameOver();
@@ -121,7 +134,7 @@ void Hero::move(const df::EventKeyboard* p_keyboard_event)
 {
 	bool heroMoved = false; //did our hero move?
 
-	LM.writeLog("Movin");
+	//LM.writeLog("Movin");
 	switch (p_keyboard_event->getKey()) {
 	case df::Keyboard::UPARROW:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
@@ -221,6 +234,16 @@ void Hero::step()
 			m_attackObj->setSolidness(df::SPECTRAL);
 			m_attackObj_lifetime = ATTACK_OBJ_LIFETIME; //reset
 		}
+	}
+}
+
+void Hero::col(const df::EventCollision* p_collision_event)
+{
+	if (p_collision_event->getObject1()->getType() == "Stairs" ||
+		p_collision_event->getObject2()->getType() == "Stairs") {
+		EventStairs stairs;
+		WM.onEvent(&stairs);
+
 	}
 }
 
