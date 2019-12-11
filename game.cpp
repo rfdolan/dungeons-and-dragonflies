@@ -23,6 +23,7 @@
 #include "vs-2019\Monster.h"
 #include "vs-2019\Hunger.h"
 #include "vs-2019\Food.h"
+#include "vs-2019\FloorNum.h"
 
 //functions
 void loadResources();
@@ -62,17 +63,17 @@ int main(void) {
 
 void loadResources() {
 	//hero sprites
-	RM.loadSprite("../sprites/hero-walk-spr.txt", "walk");
-	RM.loadSprite("../sprites/stairs-spr.txt", "stairs");
-	RM.loadSprite("../sprites/hero_hurt-spr.txt", "hurt");
-	RM.loadSprite("../sprites/hero-attack-spr.txt", "attack");
+	RM.loadSprite("sprites/hero-walk-spr.txt", "walk");
+	RM.loadSprite("sprites/stairs-spr.txt", "stairs");
+	RM.loadSprite("sprites/hero_hurt-spr.txt", "hurt");
+	RM.loadSprite("sprites/hero-attack-spr.txt", "attack");
 
 	//monster sprites
-	RM.loadSprite("../sprites/monster-walk-spr.txt", "monster-walk");
-	RM.loadSprite("../sprites/monster-chase-spr.txt", "monster-chase");
-	RM.loadSprite("../sprites/monster-hurt01-spr.txt", "monster-hurt1");
-	RM.loadSprite("../sprites/monster-hurt02-spr.txt", "monster-hurt2");
-	RM.loadSprite("../sprites/monster-hurt03-spr.txt", "monster-hurt3");
+	RM.loadSprite("sprites/monster-walk-spr.txt", "monster-walk");
+	RM.loadSprite("sprites/monster-chase-spr.txt", "monster-chase");
+	RM.loadSprite("sprites/monster-hurt01-spr.txt", "monster-hurt1");
+	RM.loadSprite("sprites/monster-hurt02-spr.txt", "monster-hurt2");
+	RM.loadSprite("sprites/monster-hurt03-spr.txt", "monster-hurt3");
 
 	//food
 	RM.loadSprite("../sprites/food-spr.txt", "food");
@@ -80,6 +81,7 @@ void loadResources() {
 
 	RM.loadMusic("../music/ambient-1.wav", "ambient-1");
 	RM.loadSprite("../sprites/attack-obj-spr.txt", "attack_obj");
+
 
 }
 
@@ -94,6 +96,7 @@ void populateWorld() {
 	
 	//populate hunger
 	new Hunger;
+	new FloorNum;
 
 	Map* m = new Map();
 	// Generate world.
