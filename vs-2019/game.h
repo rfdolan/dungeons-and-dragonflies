@@ -4,6 +4,7 @@
 #define GAME_H
 
 const df::Vector HERO_SPEED(0.33f, 0.15f);
+const df::Vector HERO_SPEED_RUN(0.66f, 0.30f);
 //const df::Vector HERO_SPEED(1.0f, 1.0f);
 const df::Vector MONSTER_SPEED_WANDER(0.20f, 0.9f);
 const df::Vector MONSTER_SPEED_CHASE(0.37f, 0.17f);
