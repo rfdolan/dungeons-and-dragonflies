@@ -78,9 +78,10 @@ void loadResources() {
 	RM.loadSprite("../sprites/food-spr.txt", "food");
 
 
-	//attack object
+
 	RM.loadMusic("../music/ambient-1.wav", "ambient-1");
 	RM.loadSprite("../sprites/attack-obj-spr.txt", "attack_obj");
+
 }
 
 void populateWorld() {
