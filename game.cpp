@@ -2,6 +2,7 @@
 // game.cpp
 // 
 
+
 // System includes
 #include <stdlib.h>
 
@@ -75,6 +76,7 @@ void loadResources() {
 
 	//other
 	RM.loadSprite("../sprites/food-spr.txt", "food");
+
 
 	//attack object
 	RM.loadMusic("../music/ambient-1.wav", "ambient-1");
