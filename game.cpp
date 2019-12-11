@@ -75,7 +75,7 @@ void loadResources() {
 	RM.loadSprite("sprites/monster-hurt03-spr.txt", "monster-hurt3");
 
 	//other
-	RM.loadSprite("../sprites/food-spr.txt", "food");
+	RM.loadSprite("sprites/food-spr.txt", "food");
 
 
 	RM.loadMusic("music/ambient-1.wav", "ambient-1");
@@ -134,6 +134,8 @@ void createTestDungeon() {
 	m->create();
 
 }
+
+/*
 
 void createMap(Hero *p_hero) {
 	//createTestDungeon();
@@ -252,6 +254,7 @@ df::Vector generateMove(Map* m, df::Vector curr_pos) {
 	
 
 }
+*/
 
 // Randomly place Object, making sure no collision. --- taken from professor 
 void placeObject(df::Object* p_o) {

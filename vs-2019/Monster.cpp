@@ -88,7 +88,12 @@ int Monster::eventHandler(const df::Event* e) {
 
 // Return true if Hero is within sensing distance.
 bool Monster::senseHero() {
-	if ((getHero()->getPosition() - getPosition()).getMagnitude() < SENSE_DISTANCE) {
+	df::Vector hero_pos = getHero()->getPosition();
+	float xChange = hero_pos.getX() - getPosition().getX();
+	float yChange = hero_pos.getY() - getPosition().getY();
+	yChange /= 4;
+	float pythag = sqrt(pow(xChange, 2) + pow(yChange, 2));
+	if (pythag < SENSE_DISTANCE){
 		return true;
 	}
 	return false; // Can't sense.
