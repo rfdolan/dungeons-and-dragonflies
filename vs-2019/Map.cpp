@@ -182,13 +182,17 @@ bool Map::placeMonsters(df::Vector start_pos) {
 
 bool Map::placeStairs(df::Vector start_pos) {
 	
-	
-	/*
-	Food* food = new Food(df::Vector(start_pos.getX() * ROOM_WIDTH + 10, start_pos.getY() * ROOM_HEIGHT + 10));
+
+	//small food 
+	Food* food = new Food(0, df::Vector(start_pos.getX() * ROOM_WIDTH + 10, start_pos.getY() * ROOM_HEIGHT + 10));
 	m_food = food;
 	LM.writeLog("Placed food in room (%d, %d)", start_pos.getX(), start_pos.getY());
-	return true;
-	*/
+	
+	
+	//big food
+	Food* bigFood= new Food(1, df::Vector(start_pos.getX() * ROOM_WIDTH + 25, start_pos.getY() * ROOM_HEIGHT + 15));
+	m_big_food = bigFood;
+	LM.writeLog("Placed  big food in room (%d, %d)", start_pos.getX(), start_pos.getY());
 	
 	
 	// Place stairs

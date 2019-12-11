@@ -2,6 +2,7 @@
 // game.cpp
 // 
 
+
 // System includes
 #include <stdlib.h>
 
@@ -74,12 +75,14 @@ void loadResources() {
 	RM.loadSprite("sprites/monster-hurt02-spr.txt", "monster-hurt2");
 	RM.loadSprite("sprites/monster-hurt03-spr.txt", "monster-hurt3");
 
-	//other
-	RM.loadSprite("sprites/food-spr.txt", "food");
 
+	//food
+	RM.loadSprite("../sprites/food-spr.txt", "food");
+	RM.loadSprite("../sprites/big-food-spr.txt", "big-food");
 
-	RM.loadMusic("music/ambient-1.wav", "ambient-1");
-	RM.loadSprite("sprites/attack-obj-spr.txt", "attack_obj");
+	RM.loadMusic("../music/ambient-1.wav", "ambient-1");
+	RM.loadSprite("../sprites/attack-obj-spr.txt", "attack_obj");
+
 
 }
 
