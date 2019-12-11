@@ -10,10 +10,11 @@
 #include "EventHeroMoved.h"
 #include "EventMonsterHit.h"
 #include "EventFoodFound.h"
+#include "EventBigFood.h"
 
 Hunger::Hunger() {
 	//view object	
-	setLocation(df::TOP_CENTER);
+	setLocation(df::TOP_LEFT);
 	setViewString(HUNGER_STRING);
 	setColor(df::WHITE);
 	setValue(100);
@@ -34,6 +35,9 @@ Hunger::Hunger() {
 
 	//want to know if food was found
 	registerInterest(FOOD_FOUND_EVENT);
+
+	//want to know if big food was found 
+	registerInterest(BIG_FOOD_EVENT);
 }
 
 //Handle event
@@ -57,10 +61,16 @@ int Hunger::eventHandler(const df::Event* p_e) {
 		return 1;
 	}
 
-	//increase hunger if hero 
+	//increase hunger if hero finds small food
 	if (p_e->getType() == FOOD_FOUND_EVENT) {
 		setValue(getValue() + 3);
 		return 1;
+	}
+	
+	//increase hunger if hero finds big food 
+	if (p_e->getType() == BIG_FOOD_EVENT) {
+		setValue(getValue() + 10);
+		return 1; 
 	}
 
 	//if get here, have ignored this event 

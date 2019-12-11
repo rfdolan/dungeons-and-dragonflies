@@ -21,6 +21,7 @@ private:
 	std::vector<Space> spaces;
 	Stairs *m_stairs;
 	Food* m_food;
+	Food* m_big_food;
 	Hero* m_hero;
 	std::vector<Monster*> m_monsters;
 	

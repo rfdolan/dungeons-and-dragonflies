@@ -5,34 +5,50 @@
 //game
 #include "Food.h"
 #include "EventFoodFound.h"
+#include "EventBigFood.h"
 
-
-Food::Food() {
+//type 0 - small food, type 1- big food
+//default - small food 
+Food::Food(int type) {
+	//set type number
+	m_type = type;
 
 	LM.writeLog("Food object created");
 
 	//make soft
 	setSolidness(df::SOFT);
 
+	if (type == 1) { //big food 
+		setSprite("big-food");
+	}
+	else { //small food 
+		setSprite("food");
+	}
+
 	//set type 
 	setType("Food");
-
-	//set sprite 
-	setSprite("food");
 
 	//interested in collisions
 	registerInterest(df::COLLISION_EVENT);
 }
 
-Food::Food(df::Vector new_position) {
+//type 0 - small food, type 1- big food
+//default - small food 
+Food::Food(int type, df::Vector new_position) {
+	//set type number
+	m_type = type;
 
 	LM.writeLog("Food object created");
 
 	//set type 
 	setType("Food");
 
-	//set sprite 
-	setSprite("food");
+	if (type == 1) { //big food 
+		setSprite("big-food");
+	}
+	else { //small food 
+		setSprite("food");
+	}
 
 	//set to specified position 
 	setPosition(new_position);
@@ -60,10 +76,17 @@ void Food::found(const df::EventCollision* p_collision_event) {
 	//want to know if hero found us
 	if ((p_collision_event->getObject1()->getType()) == "Hero"){
 
-		//create food found event 
-		EventFoodFound foodFound;
-		WM.onEvent(&foodFound);
-
+		//create appropriate event
+		if (m_type == 1) {  //big food 
+			EventBigFood bigFood;
+			WM.onEvent(&bigFood);
+		}
+		else { //small food
+			//create food found event 
+			EventFoodFound foodFound;
+			WM.onEvent(&foodFound);
+		}
+		
 		//delete itself
 		WM.markForDelete(p_collision_event->getObject2());
 	}
@@ -72,9 +95,16 @@ void Food::found(const df::EventCollision* p_collision_event) {
 	//want to know if hero found us
 	if ((p_collision_event->getObject2()->getType()) == "Hero") {
 
-		//create food found event 
-		EventFoodFound foodFound;
-		WM.onEvent(&foodFound);
+		//create appropriate event
+		if (m_type == 1) {  //big food 
+			EventBigFood bigFood;
+			WM.onEvent(&bigFood);
+		}
+		else { //small food
+			//create food found event 
+			EventFoodFound foodFound;
+			WM.onEvent(&foodFound);
+		}
 
 		//delete itself
 		WM.markForDelete(p_collision_event->getObject1());
