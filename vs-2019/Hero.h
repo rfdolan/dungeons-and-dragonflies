@@ -4,6 +4,7 @@
 
 #include "Object.h"
 #include "EventKeyboard.h"
+#include "EventCollision.h"
 #include "AttackRange.h"
 
 #define ATTACK_OBJ_LIFETIME 5
@@ -22,6 +23,7 @@ private:
 	void kbd(const df::EventKeyboard* p_keyboard_event);
 	void move(const df::EventKeyboard* p_keyboard_event);
 	void step();
+	void col(const df::EventCollision* p_collision_event);
 
 };
 

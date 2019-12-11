@@ -46,7 +46,7 @@ void StateSearch::Execute(df::Object* p_obj)
 	// Implement searching (move faster and stop less frequently).
 	// Start thinking.
 	if (p_monster->getMoveCountdown() <= 0 && !isThinking) {
-		LM.writeLog("Start thinking");
+		//LM.writeLog("Start thinking");
 		// Stop moving.
 		p_monster->setSpeed(0);
 
@@ -57,7 +57,7 @@ void StateSearch::Execute(df::Object* p_obj)
 
 	// Start moving
 	if (p_monster->getThinkCountdown() <= 0 && isThinking) {
-		LM.writeLog("Start walking");
+	//	LM.writeLog("Start walking");
 		// That's enough thinking, choose a direction and start moving.
 		p_monster ->setDirection(chooseDirection());
 		p_monster->setSpeed(SEARCH_SPEED);

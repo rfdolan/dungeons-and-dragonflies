@@ -90,8 +90,9 @@ void populateWorld() {
 	//populate hunger
 	new Hunger;
 
+	Map* m = new Map();
 	// Generate world.
-	createMap(p_hero);
+	m->generateMap(p_hero);
 
 	RM.getMusic("ambient-1")->play();
 }

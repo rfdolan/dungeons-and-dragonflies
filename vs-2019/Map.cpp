@@ -1,9 +1,39 @@
 #include "Map.h"
 #include "LogManager.h"
+#include "game.h"
+#include "WorldManager.h"
+#include "Monster.h"
+#include "Stairs.h"
+#include "EventStairs.h"
+#include "GameManager.h"
 
 Map::Map()
 {
+	setType("map");
 	spaces = std::vector<Space>();
+	m_stairs = nullptr;
+
+	registerInterest(STAIRS_EVENT);
+}
+
+void Map::setHero(Hero* p_hero)
+{
+	m_hero = p_hero;
+}
+
+Hero* Map::getHero() const
+{
+	return m_hero;
+}
+
+void Map::setStairs(Stairs* p_stairs)
+{
+	m_stairs = p_stairs;
+}
+
+Stairs* Map::getStairs() const
+{
+	return m_stairs;
 }
 
 void Map::addSpace(Space s)
@@ -39,17 +69,12 @@ Space Map::getSpaceAt(df::Vector pos) const
 	return Space(df::Vector(-1,-1), UNDEFINED_TYPE);
 }
 
-std::vector<Space> Map::getMap() const
-{
-	return spaces;
-}
 
 void Map::create()
 {
 	std::vector<Space>::iterator it; 
-	std::vector<Space> map = getSpaces();
-	for (it = map.begin(); it < map.end(); it++) {
-		LM.writeLog("Creating a space");
+	for (it = spaces.begin(); it < spaces.end(); it++) {
+		//LM.writeLog("Creating a space");
 		it->createInWorld();
 	}
 }
@@ -70,4 +95,217 @@ int Map::connectSpacesAt(df::Vector pos1, df::Vector pos2)
 	addSpace(s2);
 	return 1;
 
+}
+
+void Map::generateMap(Hero *p_hero) {
+	//createTestDungeon();
+	LM.writeLog("===GENERATING MAP===");
+//	Map* m = new Map();
+	m_hero = p_hero;
+	// Reset the map.
+	initialize();
+	LM.writeLog("INITIALIZED");
+
+	// Create start.
+	int startX = rand() % MAP_WIDTH;
+	int startY = rand() % MAP_HEIGHT;
+	df::Vector start_pos = df::Vector(startX, startY);
+	Space s = Space(start_pos, ROOM);
+	addSpace(s);
+	p_hero->setPosition(df::Vector(startX * ROOM_WIDTH + 10, startY * ROOM_HEIGHT + 5));
+	WM.setViewFollowing(p_hero);
+
+
+	int stepsFromStart = 0;
+	df::Vector curr_pos = start_pos;
+	while (stepsFromStart < (MAP_HEIGHT * MAP_WIDTH - 4)) {
+		df::Vector next_pos = generateMove(curr_pos);
+		if (curr_pos != next_pos) {
+			stepsFromStart++;
+			curr_pos = next_pos;
+		}
+	}
+	
+	// Place stairs
+	bool placed = false;
+	while (!placed) {
+		placed = placeStairs(start_pos);
+	}
+
+	//TODO generate a random number of monsters?
+	placeMonsters(start_pos);
+
+
+
+	create();
+	LM.writeLog("DONE CREATING LEVEL GEOMETRY");
+}
+
+bool Map::placeMonsters(df::Vector start_pos) {
+
+	// Place enemy
+	int numPlaced = 0;
+	int numToPlace = (MAP_HEIGHT * MAP_WIDTH / 10) + (rand() % (MAP_HEIGHT * MAP_WIDTH / 2));
+
+	std::vector<Space> spaces = getSpaces();
+	std::vector<Space>::iterator it = spaces.begin();
+	for (it = spaces.begin(); it < spaces.end(); it++) {
+		if (it->getPieceType() == ROOM) {
+			int numToPlace = rand() % 4;
+			df::Vector room_pos = it->getMapPos();
+			switch (numToPlace) {
+			case 3:
+			{
+				Monster* p_monster3 = new Monster(m_hero);
+				p_monster3->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 60 + (rand() % 10), room_pos.getY() * ROOM_HEIGHT + 9 + (rand() % 2)));
+				addMonster(p_monster3);
+				numPlaced++;
+			}
+			case 2:
+			{
+				Monster* p_monster2 = new Monster(m_hero);
+				p_monster2->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 60 + (rand() % 10), room_pos.getY() * ROOM_HEIGHT + 17 + (rand() % 2)));
+				addMonster(p_monster2);
+				numPlaced++;
+			}
+			case 1:
+			{
+				Monster* p_monster = new Monster(m_hero);
+				p_monster->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 15 + (rand() % 4), room_pos.getY() * ROOM_HEIGHT + 17 + (rand() % 2)));
+				addMonster(p_monster);
+				numPlaced++;
+			}
+			case 0:
+				break;
+			}
+		}
+	}
+	return true;
+}
+
+bool Map::placeStairs(df::Vector start_pos) {
+	
+	/*
+	Stairs* stairs = new Stairs(df::Vector(start_pos.getX() * ROOM_WIDTH + 10, start_pos.getY() * ROOM_HEIGHT + 10));
+	m_stairs = stairs;
+	LM.writeLog("Placed stairs in room (%d, %d)", start_pos.getX(), start_pos.getY());
+	return true;
+	*/
+	
+	// Place stairs
+	std::vector<Space> spaces =getSpaces();
+	std::vector<Space>::iterator it = spaces.begin();
+	for (it = spaces.begin(); it < spaces.end(); it++) {
+		if (it->getPieceType() == ROOM) {
+			if (it->getMapPos() != start_pos) {
+				int num = rand() % 2;
+				if (num == 0) {
+					df::Vector room_pos = it->getMapPos();
+					// Place stairs
+					Stairs* stairs = new Stairs(df::Vector(room_pos.getX() * ROOM_WIDTH + 10, room_pos.getY() * ROOM_HEIGHT + 5));
+					m_stairs = stairs;
+					LM.writeLog("Placed stairs in room (%d, %d)", room_pos.getX(), room_pos.getY());
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+
+}
+
+void Map::initialize()
+{
+	// Delete all walls
+	int numItems = spaces.size();
+	for (int i = 0; i < numItems; i++) {
+		spaces.pop_back();
+	}
+
+	// Delete stairs
+	WM.markForDelete(m_stairs);
+	// Delete monsters
+	//TODO fix
+	deleteMonsters();
+	
+}
+
+// Returns current Position
+df::Vector Map::generateMove(df::Vector curr_pos) {
+	// Pick a random move
+	PieceType target_type = ROOM;
+
+	int curr_x = curr_pos.getX();
+	int curr_y = curr_pos.getY();
+
+	int num = rand() % 4;
+	df::Vector target_space;
+	switch (num) {
+	case 0:
+		target_space = df::Vector(curr_x + 1, curr_y);
+		break;
+	case 1:
+		target_space = df::Vector(curr_x - 1, curr_y);
+		break;
+	case 2:
+		target_space = df::Vector(curr_x, curr_y+1);
+		break;
+	case 3:
+		target_space = df::Vector(curr_x, curr_y-1);
+		break;
+	}
+
+	// If outside the map, generate again
+	int targetX = target_space.getX();
+	int targetY = target_space.getY();
+	if (targetX >= MAP_WIDTH - 1 || targetX <0 || targetY >= MAP_HEIGHT || targetY < 0) {
+		return curr_pos;
+	}
+	
+	// If it has a room around it, generate a hallway
+	if (getSpaceAt(df::Vector(targetX + 1, targetY)).getPieceType() == ROOM ||
+		getSpaceAt(df::Vector(targetX - 1, targetY)).getPieceType() == ROOM ||
+		getSpaceAt(df::Vector(targetX, targetY + 1)).getPieceType() == ROOM ||
+		getSpaceAt(df::Vector(targetX, targetY - 1)).getPieceType() == ROOM) {
+		target_type = HALLWAY;
+	}
+
+	// If it is empty, populate it
+	if (getSpaceAt(target_space).getPieceType() == UNDEFINED_TYPE) {
+		Space s = Space(target_space, target_type);
+		addSpace(s);
+	}
+	// connect
+	connectSpacesAt(curr_pos, target_space);
+
+	return target_space;
+	
+
+}
+
+int Map::eventHandler(const df::Event* p_e)
+{
+	if (p_e->getType() == STAIRS_EVENT) {
+		generateMap(m_hero);
+		return 1;
+
+	}
+	return 0;
+}
+std::vector<Monster*> Map::getMonsters()
+{
+	return m_monsters;
+}
+void Map::deleteMonsters()
+{
+	LM.writeLog("DELETING MONSTERS");
+	for (int i = 0; i < m_monsters.size(); i++) {
+		LM.writeLog("Deleting a monster");
+		WM.markForDelete(m_monsters[i]);
+	}
+	m_monsters.clear();
+}
+void Map::addMonster(Monster* p_monster)
+{
+	m_monsters.push_back(p_monster);
 }
