@@ -25,8 +25,8 @@
 #define MOVE_TIME_WANDER 60
 #define THINK_TIME_WANDER 90
 #define SEARCH_SPEED 0.15
-#define SENSE_DISTANCE 12
-#define CHASE_SPEED 0.20
+#define SENSE_DISTANCE 20
+#define CHASE_SPEED 0.25
 #define TAKE_DAMAGE 2
 
 class Monster : public df::Object {

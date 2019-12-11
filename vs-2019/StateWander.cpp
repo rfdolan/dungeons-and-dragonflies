@@ -69,8 +69,12 @@ void StateWander::Execute(df::Object* p_obj)
 	if (p_monster->getThinkCountdown() <= 0 && isThinking) {
 		//LM.writeLog("Start walking");
 		// That's enough thinking, choose a direction and start moving.
-		p_monster->setDirection(chooseDirection());
-		p_monster->setSpeed(WANDER_SPEED);
+		df::Vector direction = chooseDirection();
+		direction.normalize();
+		direction.setX(direction.getX() * MONSTER_SPEED_CHASE.getX());
+		direction.setY(direction.getY() * MONSTER_SPEED_CHASE.getY());
+
+		p_monster->setVelocity(direction);
 		p_monster->stopAnimation(false);
 		// Reset thinking countdown.
 		p_monster->setThinkCountdown(THINK_TIME_WANDER);

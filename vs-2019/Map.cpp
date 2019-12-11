@@ -144,8 +144,8 @@ void Map::generateMap(Hero *p_hero) {
 bool Map::placeMonsters(df::Vector start_pos) {
 
 	// Place enemy
-	int numPlaced = 0;
-	int numToPlace = (MAP_HEIGHT * MAP_WIDTH / 10) + (rand() % (MAP_HEIGHT * MAP_WIDTH / 2));
+	//int numPlaced = 0;
+	//int numToPlace = (MAP_HEIGHT * MAP_WIDTH / 10) + (rand() % (MAP_HEIGHT * MAP_WIDTH / 2));
 
 	std::vector<Space> spaces = getSpaces();
 	std::vector<Space>::iterator it = spaces.begin();
@@ -159,21 +159,18 @@ bool Map::placeMonsters(df::Vector start_pos) {
 				Monster* p_monster3 = new Monster(m_hero);
 				p_monster3->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 60 + (rand() % 10), room_pos.getY() * ROOM_HEIGHT + 9 + (rand() % 2)));
 				addMonster(p_monster3);
-				numPlaced++;
 			}
 			case 2:
 			{
 				Monster* p_monster2 = new Monster(m_hero);
 				p_monster2->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 60 + (rand() % 10), room_pos.getY() * ROOM_HEIGHT + 17 + (rand() % 2)));
 				addMonster(p_monster2);
-				numPlaced++;
 			}
 			case 1:
 			{
 				Monster* p_monster = new Monster(m_hero);
 				p_monster->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 15 + (rand() % 4), room_pos.getY() * ROOM_HEIGHT + 17 + (rand() % 2)));
 				addMonster(p_monster);
-				numPlaced++;
 			}
 			case 0:
 				break;
@@ -185,6 +182,7 @@ bool Map::placeMonsters(df::Vector start_pos) {
 
 bool Map::placeStairs(df::Vector start_pos) {
 	
+
 	//small food 
 	Food* food = new Food(0, df::Vector(start_pos.getX() * ROOM_WIDTH + 10, start_pos.getY() * ROOM_HEIGHT + 10));
 	m_food = food;
@@ -272,6 +270,9 @@ df::Vector Map::generateMove(df::Vector curr_pos) {
 		getSpaceAt(df::Vector(targetX - 1, targetY)).getPieceType() == ROOM ||
 		getSpaceAt(df::Vector(targetX, targetY + 1)).getPieceType() == ROOM ||
 		getSpaceAt(df::Vector(targetX, targetY - 1)).getPieceType() == ROOM) {
+		target_type = HALLWAY;
+	}
+	if (rand() % 3 == 0) {
 		target_type = HALLWAY;
 	}
 
