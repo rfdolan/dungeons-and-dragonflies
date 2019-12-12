@@ -20,6 +20,7 @@ private:
 	bool walkSprite; //indicates which sprite we are on 
 	AttackRange* m_attackObj;
 	int m_attackObj_lifetime;
+	bool isDead; 
 	void kbd(const df::EventKeyboard* p_keyboard_event);
 	void move(const df::EventKeyboard* p_keyboard_event);
 	void step();

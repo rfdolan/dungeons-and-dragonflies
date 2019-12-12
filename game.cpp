@@ -68,6 +68,8 @@ void loadResources() {
 	RM.loadSprite("../sprites/stairs-spr.txt", "stairs");
 	RM.loadSprite("../sprites/hero_hurt-spr.txt", "hurt");
 	RM.loadSprite("../sprites/hero-attack-spr.txt", "attack");
+	RM.loadSprite("../sprites/hero-dead-spr.txt", "dead");
+	RM.loadSprite("../sprites/hero-dead-2-spr.txt", "dead2");
 
 	//monster sprites
 	RM.loadSprite("../sprites/monster-walk-spr.txt", "monster-walk");
@@ -93,10 +95,8 @@ void populateWorld() {
 	float X = WM.getBoundary().getHorizontal();
 	float Y = WM.getBoundary().getVertical();
 
-	Hero* p_hero = new Hero;
-	p_hero->setVisible(false);
 
-	new GameStart(p_hero);
+	new GameStart();
 
 	/*
 	//populate hunger

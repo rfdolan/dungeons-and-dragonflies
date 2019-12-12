@@ -3,6 +3,7 @@
 #include "Event.h"
 #include "EventStep.h"
 #include "LogManager.h"
+#include "WorldManager.h"
 
 //Game includes 
 #include "Hunger.h"
@@ -11,6 +12,7 @@
 #include "EventMonsterHit.h"
 #include "EventFoodFound.h"
 #include "EventBigFood.h"
+#include "EventGameOver.h"
 
 Hunger::Hunger() {
 	//view object	
@@ -18,11 +20,11 @@ Hunger::Hunger() {
 	setViewString(HUNGER_STRING);
 	setColor(df::WHITE);
 	setValue(100);
-
+	
 	//decrease rate 
 	hitDecreaseRate = HIT_RATE;
 	moveDecreaseRate = STEP_RATE;
-
+	isDead = false;
 	//decrease hunger when player moves 
 	registerInterest(HERO_MOVED_EVENT);
 
@@ -58,6 +60,14 @@ int Hunger::eventHandler(const df::Event* p_e) {
 	//decrease hunger if hero uses attack 
 	if (p_e->getType() == HERO_MOVED_EVENT) {
 		setValue(getValue() - 5); //decrease by 1.
+		
+		//check if game over 
+		if (!isDead && getValue() < 1) {
+			isDead = true;
+			EventGameOver gameOver;
+			WM.onEvent(&gameOver);
+			WM.markForDelete(this);
+		}
 		return 1;
 	}
 
@@ -83,6 +93,14 @@ void Hunger::playerHit() {
 	if (hitDecreaseRate < 1) {
 		setValue(getValue() - 5);
 		hitDecreaseRate = HIT_RATE;  //reset hit decrease rate 
+
+		//check if game over 
+		if (!isDead && getValue() < 1) {
+			isDead = true;
+			EventGameOver gameOver;
+			WM.onEvent(&gameOver);
+			WM.markForDelete(this);
+		}
 	}
 	else {
 		hitDecreaseRate--;
@@ -95,6 +113,14 @@ void Hunger::playerMoved() {
 	if (moveDecreaseRate < 1) {
 		setValue(getValue() - 1);
 		moveDecreaseRate = STEP_RATE; //reset move decrease rate
+
+		//check if game over 
+		if (!isDead && getValue() < 1) {
+			isDead = true;
+			EventGameOver gameOver;
+			WM.onEvent(&gameOver);
+			WM.markForDelete(this);
+		}
 	}
 	else {
 		moveDecreaseRate--;

@@ -14,6 +14,7 @@
 #include "AttackRange.h"
 #include "EventMonsterHit.h"
 #include "EventStairs.h"
+#include "EventGameOver.h"
 
 
 Hero::Hero()
@@ -27,6 +28,7 @@ Hero::Hero()
 	walkSprite = true;
 	m_attackObj = NULL;
 	m_attackObj_lifetime = ATTACK_OBJ_LIFETIME;
+	isDead = false;
 
 	// Need to control Hero with keyboard.
 	registerInterest(df::KEYBOARD_EVENT);
@@ -42,15 +44,20 @@ Hero::Hero()
 
 	// Register interest in collisions for stairs
 	registerInterest(df::COLLISION_EVENT);
+
+	//check if game is over
+	registerInterest(GAME_OVER_EVENT);
 }
 
 int Hero::eventHandler(const df::Event* p_e)
 {
 	if (p_e->getType() == df::KEYBOARD_EVENT) {
-		const df::EventKeyboard* p_keyboard_event = (const df::EventKeyboard*) p_e;
-		kbd(p_keyboard_event);
+		if (!isDead) {
+			const df::EventKeyboard* p_keyboard_event = (const df::EventKeyboard*) p_e;
+			kbd(p_keyboard_event);
+			
+		}
 		return 1;
-
 	}
 	if (p_e->getType() == df::STEP_EVENT) {
 		//setSprite("walk");
@@ -61,29 +68,49 @@ int Hero::eventHandler(const df::Event* p_e)
 		return 1;
 	}
 	if (p_e->getType() == PLAYER_HIT_EVENT) {
-		//log 
-		LM.writeLog("Hero was hit");
-		
-		//temporarly change color of hero 
-		setSprite("hurt");
-		walkSprite = false;
-		//stopAnimation(false);
+		if (!isDead) {
+			//log 
+			LM.writeLog("Hero was hit");
+
+			//temporarly change color of hero 
+			setSprite("hurt");
+			walkSprite = false;
+			//stopAnimation(false);
+		}
 		return 1;
 
 	}
 	if (p_e->getType() == MONSTER_HIT_EVENT) {
-		LM.writeLog("Player issued an efficient attack");
-		
-		//reset attack obj 
-		m_attackObj->setSolidness(df::SPECTRAL);
-		m_attackObj_lifetime = ATTACK_OBJ_LIFETIME;
+		if (!isDead) {
+			LM.writeLog("Player issued an efficient attack");
+
+			//reset attack obj 
+			m_attackObj->setSolidness(df::SPECTRAL);
+			m_attackObj_lifetime = ATTACK_OBJ_LIFETIME;
+		}
 		return 1;
 	}
 	if (p_e->getType() == df::COLLISION_EVENT) {
-		const df::EventCollision* p_collision_event = (const df::EventCollision*) p_e;
-		col(p_collision_event);
+		if (!isDead) {
+			const df::EventCollision* p_collision_event = (const df::EventCollision*) p_e;
+			col(p_collision_event);
+		}
 		return 1;
 
+	}
+	
+
+	//check if game over
+	if (p_e->getType() == GAME_OVER_EVENT) {
+		LM.writeLog("GAME IS OVER");
+		
+		//player is now dead
+		isDead = true;
+
+		//change sprite
+		setSprite("dead2");
+
+		setVelocity(df::Vector(0, 0));
 	}
 	return 0;
 }
@@ -221,7 +248,7 @@ void Hero::step()
 {
 	
 	//make sure we are in right sprite 
-	if (!walkSprite) {
+	if (!walkSprite && !isDead) {
 		setSprite("walk");
 		walkSprite = true;
 	}
