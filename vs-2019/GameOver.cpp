@@ -56,6 +56,7 @@ int GameOver::eventHandler(const df::Event* p_e) {
 
 // Count down to end of message.
 void GameOver::step() {
+	/*
 	LM.writeLog("Steppin in gameover");
 	time_to_live--;
 	LM.writeLog("Time to live is %d", time_to_live);
@@ -63,6 +64,7 @@ void GameOver::step() {
 		LM.writeLog("Game over is done living");
 		WM.markForDelete(this);
 	}
+	*/
 }
 
 

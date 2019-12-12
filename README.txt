@@ -1,30 +1,38 @@
-DUNGEONS AND DRAGONFLIES
+DUNGEONS AND DRAGONFLIES 
 
-BY RAYMOND DOLAN AND ALEJANDRA GARZA
+Raymond Dolan (rfdolan@wpi.edu)
+Alejandra Garza (agarza@wpi.edu)
 
-FINAL PROJECT FOR IMGD 3000
-
-
---------------------------------------------------------------------
+This project serves as our final project for IMGD 3000 taught by Professor Claypool
+----------------------------------------------------------------------------------
+Platform: Windows
 
 To build:
 
-0) Setup development environment for Windows, Linux or MacOS.
-See http://dragonfly.wpi.edu/engine/index.html#setup for details.
+0) Follow the Setup developer environment for Windows instructions, under "Windows
+Setup" section, see: http://dragonfly.wpi.edu/engine/index.html#setup
 
-1) Build, as appropriate for the platform (e.g., "make" on Linux or
-Mac, F7 on Windows from Visual Studio).
+1) Build by pressing F7 from Visual Studio or by selecting Build->Compile
+(NOTE: This project was developed in Visual Studio 2019).
 
-2) Run game, as appropriate for the platform (e.g., "./game" on
-Linux or Mac, F5 on Windows from Visual Studio)
+2) Run project by pressing F5
 
---------------------------------------------------------------------
+3) After running project, view logs from test by going to vs2019/dragonfly
+---------------------------------------------------------------------------------
+This directory contains Microsoft Visual Studio v16 (2019) solution
+files.
 
-Directories:
+The Solution assumes a directory setup as follows:
 
-sounds/ - contains the sound files used in Saucer shoot
-sprites/ - contains the sprite files used in Saucer shoot
-vs-2019/ - contains Visual Studio solution files (Microsoft Windows)
-
---------------------------------------------------------------------
-
+Projects/         Location of Visual Studio projects.
+-gameX/           Source code for game.
+--vs-2019/        Visual Studio solution files.
+---Debug/         Location of .exe that runs in Debug mode.
+---Release/       Location of .exe that runs in Release mode.
+--df-font.txt     Fonts used by Dragonfly.
+--df-config.txt   Config file used by Dragonfly (optional).
+--sounds/         Sounds used for game.
+--sprites/        Sprites used for game.
+-SFML-2.5/        SFML directory (version 2.5.*).
+-dragonfly/       Location of Dragonfly include/ and lib/ sub-directories.
+---------------------------------------------------------------------------------

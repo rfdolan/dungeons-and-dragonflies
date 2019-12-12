@@ -234,11 +234,9 @@ bool Map::placeStairs(df::Vector start_pos) {
 	m_big_food = bigFood;
 	LM.writeLog("Placed  big food in room (%d, %d)", start_pos.getX(), start_pos.getY());
 	*/
-	/*
 	Stairs* stairs = new Stairs( df::Vector(start_pos.getX() * ROOM_WIDTH + 25, start_pos.getY() * ROOM_HEIGHT + 15));
 	m_stairs = stairs;
 	return true;
-	*/
 	
 	// Place stairs
 	std::vector<Space> spaces =getSpaces();

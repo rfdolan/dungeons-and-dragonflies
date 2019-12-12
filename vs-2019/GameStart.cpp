@@ -18,12 +18,14 @@
 #include "Hero.h"
 
 GameStart::GameStart(){
-	m_p_hero = new Hero();
+	Hero* h = new Hero();
+	m_p_hero = h;
 	m_p_hero->setVisible(false);
 	hasStarted = false;
 	
 	Map* m = new Map();
 	m_map = m;
+	m->setHero(m_p_hero);
 
 	//df::Box b = WM.getView();
 	//setPosition(b.getCorner());
@@ -76,19 +78,22 @@ int GameStart::eventHandler(const df::Event* p_e) {
 		return 1;
 	}
 
+	/*
 	if (p_e->getType() == GAME_OVER_EVENT) {
 		new GameOver(m_map, m_p_hero);
 		WM.markForDelete(this);
-	/*	df::Vector v(getPosition().getX(), getPosition().getY());
+		df::Vector v(getPosition().getX(), getPosition().getY());
 		df::Box b;
-		b.setCorner(v);*/
+		b.setCorner(v);
 		//WM.setViewFollowing(this);
+	
 
 		
 		
 		//new GameStart(m_p_hero);
 		
 	}
+*/
 	return  0;
 }
 
