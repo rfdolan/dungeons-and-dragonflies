@@ -162,6 +162,7 @@
     <ClInclude Include="Food.h" />
     <ClInclude Include="FloorNum.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="GameStart.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Relationship.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="EventStairs.cpp" />
     <ClCompile Include="Food.cpp" />
     <ClCompile Include="FloorNum.cpp" />
+    <ClCompile Include="GameStart.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Relationship.cpp" />
