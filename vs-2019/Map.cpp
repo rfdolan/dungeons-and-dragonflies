@@ -7,6 +7,7 @@
 #include "EventStairs.h"
 #include "GameManager.h"
 #include "Food.h"
+#include "EventDeleteInstance.h"
 
 Map::Map()
 {
@@ -15,6 +16,7 @@ Map::Map()
 	m_stairs = nullptr;
 
 	registerInterest(STAIRS_EVENT);
+	registerInterest(DELETE_EVENT);
 }
 
 void Map::setHero(Hero* p_hero)
@@ -133,15 +135,15 @@ void Map::generateMap(Hero *p_hero) {
 		placed = placeStairs(start_pos);
 	}
 
-	//TODO generate a random number of monsters?
-	placeMonsters(start_pos);
+	placeMonsters();
 
+	placeFood();
 
 	create();
 	LM.writeLog("DONE CREATING LEVEL GEOMETRY");
 }
 
-bool Map::placeMonsters(df::Vector start_pos) {
+bool Map::placeMonsters() {
 
 	// Place enemy
 	//int numPlaced = 0;
@@ -180,9 +182,45 @@ bool Map::placeMonsters(df::Vector start_pos) {
 	return true;
 }
 
+bool Map::placeFood()
+{
+	std::vector<Space> spaces = getSpaces();
+	std::vector<Space>::iterator it = spaces.begin();
+	for (it = spaces.begin(); it < spaces.end(); it++) {
+		if (it->getPieceType() == ROOM) {
+			int numToPlace = rand() % 4;
+			df::Vector room_pos = it->getMapPos();
+			switch (numToPlace) {
+			case 3:
+			{
+				Food* p_food = new Food(rand() % 3);
+				p_food->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 15 + (rand() % 4), room_pos.getY() * ROOM_HEIGHT + 17 + (rand() % 2)));
+				addFood(p_food);
+			}
+			case 2:
+			{
+				Food* p_food2 = new Food(rand() % 3);
+				p_food2->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 60 + (rand() % 10), room_pos.getY() * ROOM_HEIGHT + 17 + (rand() % 2)));
+				addFood(p_food2);
+			}
+			case 1:
+			{
+				Food* p_food3 = new Food(rand() % 3);
+				p_food3->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 60 + (rand() % 10), room_pos.getY() * ROOM_HEIGHT + 9 + (rand() % 2)));
+				addFood(p_food3);
+			}
+			case 0:
+				break;
+			}
+		}
+	}
+	return true;
+}
+
 bool Map::placeStairs(df::Vector start_pos) {
 	
 
+	/*
 	//small food 
 	Food* food = new Food(0, df::Vector(start_pos.getX() * ROOM_WIDTH + 10, start_pos.getY() * ROOM_HEIGHT + 10));
 	m_food = food;
@@ -193,7 +231,12 @@ bool Map::placeStairs(df::Vector start_pos) {
 	Food* bigFood= new Food(1, df::Vector(start_pos.getX() * ROOM_WIDTH + 25, start_pos.getY() * ROOM_HEIGHT + 15));
 	m_big_food = bigFood;
 	LM.writeLog("Placed  big food in room (%d, %d)", start_pos.getX(), start_pos.getY());
-	
+	*/
+	/*
+	Stairs* stairs = new Stairs( df::Vector(start_pos.getX() * ROOM_WIDTH + 25, start_pos.getY() * ROOM_HEIGHT + 15));
+	m_stairs = stairs;
+	return true;
+	*/
 	
 	// Place stairs
 	std::vector<Space> spaces =getSpaces();
@@ -228,8 +271,9 @@ void Map::initialize()
 	// Delete stairs
 	WM.markForDelete(m_stairs);
 	// Delete monsters
-	//TODO fix
 	deleteMonsters();
+	// Delete food
+	deleteFood();
 	
 }
 
@@ -294,6 +338,11 @@ int Map::eventHandler(const df::Event* p_e)
 	if (p_e->getType() == STAIRS_EVENT) {
 		generateMap(m_hero);
 		return 1;
+	}
+	if (p_e->getType() == DELETE_EVENT) {
+
+		deleteObject((EventDeleteInstance*)p_e);
+		return 1;
 
 	}
 	return 0;
@@ -314,4 +363,55 @@ void Map::deleteMonsters()
 void Map::addMonster(Monster* p_monster)
 {
 	m_monsters.push_back(p_monster);
+}
+
+void Map::addFood(Food* p_food)
+{
+	m_food.push_back(p_food);
+}
+
+void Map::deleteFood()
+{
+	for (int i = 0; i < m_food.size(); i++) {
+		WM.markForDelete(m_food[i]);
+		LM.writeLog("Deleting a food");
+	}
+	m_food.clear();
+}
+
+void Map::deleteObject(EventDeleteInstance* p_delete)
+{
+	if (p_delete->getObject()->getType() == "Food") {
+		Food* f = (Food*)p_delete->getObject();
+		std::vector<Food*> newVector = std::vector<Food*>();
+		for (int i = 0; i < m_food.size(); i++) {
+			if (!(m_food[i]->getId() == f->getId())) {
+				newVector.push_back(m_food[i]);
+			}
+			else {
+				WM.markForDelete(f);
+				LM.writeLog("Deleting a fruit from the list");
+			}
+
+		}
+		m_food = newVector;
+
+	}
+	if (p_delete->getObject()->getType() == "Monster") {
+		Monster* f = (Monster*)p_delete->getObject();
+		std::vector<Monster*> newVector = std::vector<Monster*>();
+		for (int i = 0; i < m_monsters.size(); i++) {
+			if (!(m_monsters[i]->getId() == f->getId())) {
+				newVector.push_back(m_monsters[i]);
+			}
+			else {
+				WM.markForDelete(f);
+				LM.writeLog("Deleting a monster from the list");
+			}
+
+		}
+		m_monsters = newVector;
+
+	}
+
 }

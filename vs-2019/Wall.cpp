@@ -4,7 +4,7 @@
 
 Wall::Wall(int width, int height)
 {
-	LM.writeLog("Creating wall");
+	//LM.writeLog("Creating wall");
 	setType("Wall");
 	setSolidness(df::HARD);
 

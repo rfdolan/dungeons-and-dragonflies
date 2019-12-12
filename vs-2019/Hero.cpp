@@ -25,7 +25,7 @@ Hero::Hero()
 	setAltitude(4);
 	setSolidness(df::HARD);
 	walkSprite = true;
-	m_attackObj = NULL;
+	m_attackObj = nullptr;
 	m_attackObj_lifetime = ATTACK_OBJ_LIFETIME;
 	isRunning = false;
 	
@@ -215,11 +215,13 @@ void Hero::move(const df::EventKeyboard* p_keyboard_event)
 		
 	case df::Keyboard::A:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
-			int x = getPosition().getX();
-			int y = getPosition().getY();
-			df::Vector v(x, y);
-			m_attackObj = new AttackRange(v);
-			m_attackObj_lifetime = ATTACK_OBJ_LIFETIME; //reset life
+			if (m_attackObj_lifetime == ATTACK_OBJ_LIFETIME) {
+				int x = getPosition().getX();
+				int y = getPosition().getY();
+				df::Vector v(x, y);
+				m_attackObj = new AttackRange(v);
+				//m_attackObj_lifetime = ATTACK_OBJ_LIFETIME; //reset life
+			}
 		}
 		break;
 		
@@ -253,13 +255,15 @@ void Hero::step()
 	}
 
 	//check if time to delete attack obj
-	if (m_attackObj != NULL) { //does it exist 
+	if (m_attackObj != nullptr) {
 		m_attackObj_lifetime--; //decrease its life 
+	}
 		
-		if (m_attackObj_lifetime < 1) { //ready to die
-			m_attackObj->setSolidness(df::SPECTRAL);
-			m_attackObj_lifetime = ATTACK_OBJ_LIFETIME; //reset
-		}
+	if (m_attackObj_lifetime < 1 && m_attackObj != nullptr) { //ready to die
+		WM.markForDelete(m_attackObj);
+		m_attackObj = nullptr;
+		//m_attackObj->setSolidness(df::SPECTRAL);
+		m_attackObj_lifetime = ATTACK_OBJ_LIFETIME; //reset
 	}
 }
 

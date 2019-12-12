@@ -6,6 +6,7 @@
 #include "Food.h"
 #include "EventFoodFound.h"
 #include "EventBigFood.h"
+#include "EventDeleteInstance.h"
 
 //type 0 - small food, type 1- big food
 //default - small food 
@@ -86,9 +87,8 @@ void Food::found(const df::EventCollision* p_collision_event) {
 			EventFoodFound foodFound;
 			WM.onEvent(&foodFound);
 		}
-		
-		//delete itself
-		WM.markForDelete(p_collision_event->getObject2());
+		EventDeleteInstance e = EventDeleteInstance(p_collision_event->getObject2());
+		WM.onEvent(&e);
 	}
 
 	//other hero case 
@@ -106,7 +106,7 @@ void Food::found(const df::EventCollision* p_collision_event) {
 			WM.onEvent(&foodFound);
 		}
 
-		//delete itself
-		WM.markForDelete(p_collision_event->getObject1());
+		EventDeleteInstance e = EventDeleteInstance(p_collision_event->getObject1());
+		WM.onEvent(&e);
 	}
 }

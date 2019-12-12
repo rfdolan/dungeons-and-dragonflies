@@ -1,5 +1,6 @@
 // Engine includes.
 #include "EventStep.h"
+#include "EventDeleteInstance.h"
 #include "LogManager.h"
 #include "WorldManager.h"
 #include "utility.h"
@@ -239,7 +240,9 @@ void Monster::hit(const df::EventCollision* p_collision_event) {
 		WM.onEvent(&monsterHit);
 
 		if (health < 1) { //monster is dead 
-			WM.markForDelete(p_collision_event->getObject2()); //delete monster
+			EventDeleteInstance e = EventDeleteInstance(this);
+			WM.onEvent(&e);
+			
 		}
 	}
 	if ((p_collision_event->getObject2()->getType()) == "AttackObj") {
@@ -277,7 +280,8 @@ void Monster::hit(const df::EventCollision* p_collision_event) {
 		
 
 		if (health < 1) { //monster is dead 
-			WM.markForDelete(p_collision_event->getObject1()); //delete monster
+			EventDeleteInstance e = EventDeleteInstance(this);
+			WM.onEvent(&e);
 		}
 	}
 }

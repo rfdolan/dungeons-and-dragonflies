@@ -22,7 +22,7 @@
     <ClCompile Include="EventFoodFound.cpp" />
     <ClCompile Include="EventBigFood.cpp" />
     <ClCompile Include="FloorNum.cpp" />
-
+    <ClCompile Include="EventDeleteInstance.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AttackRange.h" />
@@ -46,6 +46,6 @@
     <ClInclude Include="EventFoodFound.h" />
     <ClInclude Include="EventBigFood.h" />
     <ClInclude Include="FloorNum.h" />
-
+    <ClInclude Include="EventDeleteInstance.h" />
   </ItemGroup>
 </Project>
