@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Event.h"
+#include "EventHeroMoved.h"
 #include "ViewObject.h"
 
 #define HUNGER_STRING "Hunger"
@@ -17,5 +18,5 @@ public:
 	Hunger();
 	int eventHandler(const df::Event* p_e);
 	void playerHit();
-	void playerMoved();
+	void playerMoved(EventHeroMoved *h);
 };

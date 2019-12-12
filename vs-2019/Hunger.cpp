@@ -53,7 +53,8 @@ int Hunger::eventHandler(const df::Event* p_e) {
 
 	//decrease hunger at a certain rate when player moves 
 	if (p_e->getType() == HERO_MOVED_EVENT) {
-		playerMoved();
+		EventHeroMoved* h = (EventHeroMoved*)p_e;
+		playerMoved(h);
 		return 1;
 	}
 
@@ -70,6 +71,7 @@ int Hunger::eventHandler(const df::Event* p_e) {
 		}
 		return 1;
 	}
+
 
 	//increase hunger if hero finds small food
 	if (p_e->getType() == FOOD_FOUND_EVENT) {
@@ -107,7 +109,7 @@ void Hunger::playerHit() {
 	}
 }
 
-void Hunger::playerMoved() {
+void Hunger::playerMoved(EventHeroMoved *h) {
 
 	//check if it is time to decrease 
 	if (moveDecreaseRate < 1) {
@@ -123,6 +125,10 @@ void Hunger::playerMoved() {
 		}
 	}
 	else {
+		if (h->getHero()->isRunning) {
+			moveDecreaseRate--;
+			moveDecreaseRate--;
+		}
 		moveDecreaseRate--;
 	}
 }

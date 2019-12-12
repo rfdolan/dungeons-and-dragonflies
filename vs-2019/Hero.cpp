@@ -28,7 +28,11 @@ Hero::Hero()
 	walkSprite = true;
 	m_attackObj = NULL;
 	m_attackObj_lifetime = ATTACK_OBJ_LIFETIME;
+
 	isDead = false;
+
+	isRunning = false;
+	
 
 	// Need to control Hero with keyboard.
 	registerInterest(df::KEYBOARD_EVENT);
@@ -149,6 +153,9 @@ void Hero::kbd(const df::EventKeyboard* p_keyboard_event)
 	case df::Keyboard::RIGHTARROW: // right arrow
 		move(p_keyboard_event);
 		break;
+	case df::Keyboard::SPACE:
+		run(p_keyboard_event);
+		break;
 	default:
 		break;
 	};
@@ -156,16 +163,37 @@ void Hero::kbd(const df::EventKeyboard* p_keyboard_event)
 	return;
 }
 
+void Hero::run(const df::EventKeyboard* p_keyboard_event) {
+	if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
+		df::Vector newVel = getVelocity();
+		newVel.scale(2.0f);
+		
+		setVelocity(newVel);
+		isRunning = true;
+	}
+	if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED) {
+		df::Vector newVel = getVelocity();
+		newVel.scale(0.5f);
+		
+		setVelocity(newVel);
+		isRunning = false;
+	}
+}
+
 // Movement code based off of movement code from pyramid game
 void Hero::move(const df::EventKeyboard* p_keyboard_event)
 {
 	bool heroMoved = false; //did our hero move?
+	df::Vector currSpeed = HERO_SPEED;
+	if (isRunning) {
+		currSpeed = HERO_SPEED_RUN;
+	}
 
 	//LM.writeLog("Movin");
 	switch (p_keyboard_event->getKey()) {
 	case df::Keyboard::UPARROW:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
-			df::Vector v(getVelocity().getX(), -HERO_SPEED.getY());
+			df::Vector v(getVelocity().getX(), -currSpeed.getY());
 			setVelocity(v);
 		}
 		else if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED) {
@@ -178,7 +206,7 @@ void Hero::move(const df::EventKeyboard* p_keyboard_event)
 		break;
 	case df::Keyboard::DOWNARROW:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
-			df::Vector v(getVelocity().getX(), HERO_SPEED.getY());
+			df::Vector v(getVelocity().getX(), currSpeed.getY());
 			setVelocity(v);
 		}
 		else if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED) {
@@ -191,7 +219,7 @@ void Hero::move(const df::EventKeyboard* p_keyboard_event)
 		break;
 	case df::Keyboard::LEFTARROW:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
-			df::Vector v(-HERO_SPEED.getX(), getVelocity().getY());
+			df::Vector v(-currSpeed.getX(), getVelocity().getY());
 			setVelocity(v);
 		}
 		else if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED) {
@@ -203,7 +231,7 @@ void Hero::move(const df::EventKeyboard* p_keyboard_event)
 		break;
 	case df::Keyboard::RIGHTARROW:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
-			df::Vector v(HERO_SPEED.getX(), getVelocity().getY());
+			df::Vector v(currSpeed.getX(), getVelocity().getY());
 			setVelocity(v);
 		}
 		else if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED) {
@@ -238,7 +266,7 @@ void Hero::move(const df::EventKeyboard* p_keyboard_event)
 	if (heroMoved) {
 
 		//send a player moved event 
-		EventHeroMoved heroMoved;
+		EventHeroMoved heroMoved = EventHeroMoved(this);
 		WM.onEvent(&heroMoved);
 	}
 	return;

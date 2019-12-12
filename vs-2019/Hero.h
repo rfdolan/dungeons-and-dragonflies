@@ -15,6 +15,8 @@ public:
 	Hero();
 	int eventHandler(const df::Event* p_e);
 	void stopAnimation(bool stop);
+	bool isRunning;
+
 
 private:
 	bool walkSprite; //indicates which sprite we are on 
@@ -23,6 +25,7 @@ private:
 	bool isDead; 
 	void kbd(const df::EventKeyboard* p_keyboard_event);
 	void move(const df::EventKeyboard* p_keyboard_event);
+	void run(const df::EventKeyboard* p_keyboard_event);
 	void step();
 	void col(const df::EventCollision* p_collision_event);
 

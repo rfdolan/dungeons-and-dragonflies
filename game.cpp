@@ -79,13 +79,14 @@ void loadResources() {
 	RM.loadSprite("../sprites/monster-hurt03-spr.txt", "monster-hurt3");
 
 	//food
-	RM.loadSprite("../sprites/food-spr.txt", "food");
-	RM.loadSprite("../sprites/big-food-spr.txt", "big-food");
+	RM.loadSprite("sprites/food-spr.txt", "food");
+	RM.loadSprite("sprites/big-food-spr.txt", "big-food");
 
 	//other
 	RM.loadMusic("../music/ambient-1.wav", "ambient-1");
 	RM.loadSprite("../sprites/attack-obj-spr.txt", "attack_obj");
 	RM.loadSprite("../sprites/game-start-spr.txt", "gamestart");
+
 
 }
 
