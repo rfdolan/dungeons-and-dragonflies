@@ -6,6 +6,7 @@
 #include "Stairs.h"
 #include "EventStairs.h"
 #include "GameManager.h"
+#include "EventGameOver.h"
 #include "Food.h"
 
 Map::Map()
@@ -15,6 +16,7 @@ Map::Map()
 	m_stairs = nullptr;
 
 	registerInterest(STAIRS_EVENT);
+	registerInterest(GAME_OVER_EVENT);
 }
 
 void Map::setHero(Hero* p_hero)
@@ -295,6 +297,9 @@ int Map::eventHandler(const df::Event* p_e)
 		generateMap(m_hero);
 		return 1;
 
+	}
+	if (p_e->getType() == GAME_OVER_EVENT) {
+		initialize();
 	}
 	return 0;
 }

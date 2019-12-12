@@ -13,6 +13,7 @@ class Hunger : public df::ViewObject {
 private:
 	int hitDecreaseRate; //decrease rate for when player is hit 
 	int moveDecreaseRate; //decrease rate for when player moves
+	bool isDead;
 public:
 	Hunger();
 	int eventHandler(const df::Event* p_e);
