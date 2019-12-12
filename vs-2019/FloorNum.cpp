@@ -1,5 +1,7 @@
 #include "FloorNum.h"
 #include "EventStairs.h"
+#include "EventGameOver.h"
+#include "WorldManager.h"
 
 FloorNum::FloorNum() {
 	setLocation(df::TOP_RIGHT);
@@ -8,6 +10,7 @@ FloorNum::FloorNum() {
 	setValue(1);
 
 	registerInterest(STAIRS_EVENT);
+	registerInterest(GAME_OVER_EVENT);
 }
 
 int FloorNum::eventHandler(const df::Event* p_e) {
@@ -15,5 +18,10 @@ int FloorNum::eventHandler(const df::Event* p_e) {
 		setValue(getValue() + 1);
 		return 1;
 	}
+	if (p_e->getType() == GAME_OVER_EVENT) {
+		WM.markForDelete(this);
+		return 1;
+	}
+
 	return 0;
 }

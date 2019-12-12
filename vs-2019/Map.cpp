@@ -6,6 +6,7 @@
 #include "Stairs.h"
 #include "EventStairs.h"
 #include "GameManager.h"
+#include "EventGameOver.h"
 #include "Food.h"
 #include "EventDeleteInstance.h"
 
@@ -17,6 +18,7 @@ Map::Map()
 
 	registerInterest(STAIRS_EVENT);
 	registerInterest(DELETE_EVENT);
+	registerInterest(GAME_OVER_EVENT);
 }
 
 void Map::setHero(Hero* p_hero)
@@ -344,6 +346,9 @@ int Map::eventHandler(const df::Event* p_e)
 		deleteObject((EventDeleteInstance*)p_e);
 		return 1;
 
+	}
+	if (p_e->getType() == GAME_OVER_EVENT) {
+		initialize();
 	}
 	return 0;
 }
