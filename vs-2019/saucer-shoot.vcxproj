@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="AttackRange.h" />
     <ClInclude Include="EventBigFood.h" />
+    <ClInclude Include="EventDeleteInstance.h" />
     <ClInclude Include="EventFoodFound.h" />
     <ClInclude Include="EventGameOver.h" />
     <ClInclude Include="EventHeroMoved.h" />
@@ -181,6 +182,7 @@
     <ClCompile Include="..\game.cpp" />
     <ClCompile Include="AttackRange.cpp" />
     <ClCompile Include="EventBigFood.cpp" />
+    <ClCompile Include="EventDeleteInstance.cpp" />
     <ClCompile Include="EventFoodFound.cpp" />
     <ClCompile Include="EventGameOver.cpp" />
     <ClCompile Include="EventHeroMoved.cpp" />

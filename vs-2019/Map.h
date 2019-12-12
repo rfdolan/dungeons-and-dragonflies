@@ -9,6 +9,7 @@
 
 #include "Object.h"
 #include "Event.h"
+#include "EventDeleteInstance.h"
 
 // System includes
 #include <vector>
@@ -20,15 +21,20 @@ class Map : public df::Object
 private:
 	std::vector<Space> spaces;
 	Stairs *m_stairs;
-	Food* m_food;
-	Food* m_big_food;
 	Hero* m_hero;
 	std::vector<Monster*> m_monsters;
+	std::vector<Food*> m_food;
 	
 	df::Vector generateMove(df::Vector curr_pos);
 	bool placeStairs(df::Vector start_pos);
-	bool placeMonsters(df::Vector start_pos);
+	bool placeMonsters();
+	bool placeFood();
 	void initialize();
+	void deleteMonsters();
+	void addMonster(Monster* p_monster);
+	void addFood(Food* p_food);
+	void deleteFood();
+	void deleteObject(EventDeleteInstance* p_delete);
 
 public:
 	Map();
@@ -61,9 +67,6 @@ public:
 	int eventHandler(const df::Event* p_e);
 	
 	std::vector<Monster*> getMonsters();
-	void deleteMonsters();
-
-	void addMonster(Monster* p_monster);
 };
 
 #endif;

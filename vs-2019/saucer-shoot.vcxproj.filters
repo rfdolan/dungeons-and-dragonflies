@@ -22,6 +22,7 @@
     <ClCompile Include="EventFoodFound.cpp" />
     <ClCompile Include="EventBigFood.cpp" />
     <ClCompile Include="FloorNum.cpp" />
+    <ClCompile Include="EventDeleteInstance.cpp" />
     <ClCompile Include="GameStart.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="EventGameOver.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="EventFoodFound.h" />
     <ClInclude Include="EventBigFood.h" />
     <ClInclude Include="FloorNum.h" />
+    <ClInclude Include="EventDeleteInstance.h" />
     <ClInclude Include="GameStart.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="EventGameOver.h" />
