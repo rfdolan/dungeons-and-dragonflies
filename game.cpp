@@ -2,6 +2,7 @@
 // game.cpp
 // 
 
+
 // System includes
 #include <stdlib.h>
 
@@ -21,14 +22,14 @@
 #include "vs-2019\Stairs.h"
 #include "vs-2019\Monster.h"
 #include "vs-2019\Hunger.h"
+#include "vs-2019\Food.h"
+#include "vs-2019\FloorNum.h"
+#include "vs-2019\GameStart.h"
 
 //functions
 void loadResources();
 void populateWorld();
-void createMap(Hero* p_hero);
-df::Vector generateMove(Map* m, df::Vector curr_pos) ;
 void createTestDungeon();
-bool placeStairs(Map* m, df::Vector start_pos);
 void placeObject(df::Object* p_o);
 
 
@@ -64,6 +65,8 @@ void loadResources() {
 	RM.loadSprite("sprites/stairs-spr.txt", "stairs");
 	RM.loadSprite("sprites/hero_hurt-spr.txt", "hurt");
 	RM.loadSprite("sprites/hero-attack-spr.txt", "attack");
+	RM.loadSprite("sprites/hero-dead-spr.txt", "dead");
+	RM.loadSprite("sprites/hero-dead-2-spr.txt", "dead2");
 
 	//monster sprites
 	RM.loadSprite("sprites/monster-walk-spr.txt", "monster-walk");
@@ -72,8 +75,16 @@ void loadResources() {
 	RM.loadSprite("sprites/monster-hurt02-spr.txt", "monster-hurt2");
 	RM.loadSprite("sprites/monster-hurt03-spr.txt", "monster-hurt3");
 
-	//attack object
+	//food
+	RM.loadSprite("sprites/food-spr.txt", "food");
+	RM.loadSprite("sprites/big-food-spr.txt", "big-food");
+
+	//other
+	RM.loadMusic("music/ambient-1.wav", "ambient-1");
 	RM.loadSprite("sprites/attack-obj-spr.txt", "attack_obj");
+	RM.loadSprite("sprites/game-start-spr.txt", "gamestart");
+
+
 }
 
 void populateWorld() {
@@ -82,14 +93,20 @@ void populateWorld() {
 	float X = WM.getBoundary().getHorizontal();
 	float Y = WM.getBoundary().getVertical();
 
-	Hero* p_hero = new Hero;
 
-	
+	new GameStart();
+
+	/*
 	//populate hunger
 	new Hunger;
+	new FloorNum;
 
+	Map* m = new Map();
 	// Generate world.
-	createMap(p_hero);
+	m->generateMap(p_hero);
+
+	RM.getMusic("ambient-1")->play();
+	*/
 }
 
 void createTestDungeon() {
@@ -121,120 +138,6 @@ void createTestDungeon() {
 	//m->connectSpacesAt(df::Vector(0, 1), df::Vector(1, 1));
 	//m->connectSpacesAt(df::Vector(1, 0), df::Vector(2, 0));
 	m->create();
-
-}
-
-void createMap(Hero *p_hero) {
-	//createTestDungeon();
-	Map* m = new Map();
-
-	// Create start.
-	int startX = rand() % MAP_WIDTH;
-	int startY = rand() % MAP_HEIGHT;
-	df::Vector start_pos = df::Vector(startX, startY);
-	Space s = Space(start_pos, ROOM);
-	m->addSpace(s);
-	p_hero->setPosition(df::Vector(startX * ROOM_WIDTH + 10, startY * ROOM_HEIGHT + 5));
-	WM.setViewFollowing(p_hero);
-
-
-	int stepsFromStart = 0;
-	df::Vector curr_pos = start_pos;
-	while (stepsFromStart < (MAP_HEIGHT * MAP_WIDTH - 4)) {
-		df::Vector next_pos = generateMove(m, curr_pos);
-		if (curr_pos != next_pos) {
-			stepsFromStart++;
-			curr_pos = next_pos;
-		}
-	}
-	
-	// Place stairs
-	bool placed = false;
-	while (!placed) {
-		placed = placeStairs(m, start_pos);
-	}
-
-	// Add one Monster
-	//TODO generate a random number of monsters?
-	Monster* p_monster = new Monster(p_hero);
-	//placeObject(new Monster(p_hero));
-	p_monster->setPosition(df::Vector(startX * ROOM_WIDTH + 50, startY * ROOM_HEIGHT + 10));
-
-
-	m->create();
-}
-
-bool placeStairs(Map* m, df::Vector start_pos) {
-	// Place stairs
-	std::vector<Space> spaces = m->getSpaces();
-	std::vector<Space>::iterator it = spaces.begin();
-	for (it = spaces.begin(); it < spaces.end(); it++) {
-		if (it->getPieceType() == ROOM) {
-			if (it->getMapPos() != start_pos) {
-				int num = rand() % 2;
-				if (num == 0) {
-					df::Vector room_pos = it->getMapPos();
-					// Place stairs
-					Stairs* stairs = new Stairs(df::Vector(room_pos.getX() * ROOM_WIDTH + 10, room_pos.getY() * ROOM_HEIGHT + 5));
-					LM.writeLog("Placed stairs in room (%d, %d)", room_pos.getX(), room_pos.getY());
-					return true;
-				}
-			}
-		}
-	}
-	return false;
-
-}
-// Returns current Position
-df::Vector generateMove(Map* m, df::Vector curr_pos) {
-	// Pick a random move
-	PieceType target_type = ROOM;
-
-	int curr_x = curr_pos.getX();
-	int curr_y = curr_pos.getY();
-
-	int num = rand() % 4;
-	df::Vector target_space;
-	switch (num) {
-	case 0:
-		target_space = df::Vector(curr_x + 1, curr_y);
-		break;
-	case 1:
-		target_space = df::Vector(curr_x - 1, curr_y);
-		break;
-	case 2:
-		target_space = df::Vector(curr_x, curr_y+1);
-		break;
-	case 3:
-		target_space = df::Vector(curr_x, curr_y-1);
-		break;
-	}
-
-	// If outside the map, generate again
-	int targetX = target_space.getX();
-	int targetY = target_space.getY();
-	if (targetX >= MAP_WIDTH - 1 || targetX <0 || targetY >= MAP_HEIGHT || targetY < 0) {
-		return curr_pos;
-	}
-	
-	// If it has a room around it, generate a hallway
-	if (m->getSpaceAt(df::Vector(targetX + 1, targetY)).getPieceType() == ROOM ||
-		m->getSpaceAt(df::Vector(targetX - 1, targetY)).getPieceType() == ROOM ||
-		m->getSpaceAt(df::Vector(targetX, targetY + 1)).getPieceType() == ROOM ||
-		m->getSpaceAt(df::Vector(targetX, targetY - 1)).getPieceType() == ROOM) {
-		target_type = HALLWAY;
-	}
-
-	// If it is empty, populate it
-	if (m->getSpaceAt(target_space).getPieceType() == UNDEFINED_TYPE) {
-		Space s = Space(target_space, target_type);
-		m->addSpace(s);
-	}
-	// connect
-	m->connectSpacesAt(curr_pos, target_space);
-
-	return target_space;
-	
 
 }
 

@@ -11,7 +11,7 @@ void StateChase::Enter(df::Object* p_obj) {
 	
 	//set chase sprite.
 	p_obj->setSprite("monster-chase");
-	p_obj->setSpeed(CHASE_SPEED);
+	//p_obj->setSpeed(CHASE_SPEED);
 
 	LM.writeLog("Statechase::Enter():Set monster-chase");
 }
@@ -23,7 +23,12 @@ void StateChase::Execute(df::Object* p_obj) {
 
 	//move
 	//implement chasing 
-	p_monster->setDirection(p_monster->seeHero());
+	df::Vector direction = p_monster->seeHero();
+	direction.normalize();
+	direction.setX(direction.getX() * MONSTER_SPEED_CHASE.getX());
+	direction.setY(direction.getY() * MONSTER_SPEED_CHASE.getY());
+
+	p_monster->setVelocity(direction);
 	p_monster->stopAnimation(false);
 
 	//if cannots see hero, enter seek.

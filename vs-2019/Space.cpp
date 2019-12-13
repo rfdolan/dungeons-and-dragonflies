@@ -2,11 +2,17 @@
 #include "game.h"
 #include "Wall.h"
 #include "LogManager.h"
+#include "WorldManager.h"
 
 
 Space::Space()
 {
 	
+}
+
+Space::~Space()
+{
+	deleteWalls();
 }
 
 Space::Space(df::Vector new_pos, PieceType type)
@@ -98,6 +104,29 @@ void Space::createInWorld()
 
 }
 
+std::vector<Wall*> Space::getWalls()
+{
+	return m_walls;
+}
+
+void Space::deleteWalls()
+{
+	//LM.writeLog("Deleting walls!!!!!!!!!!!!!!!!!!!!!");
+	for (int i = 0; i < m_walls.size(); i++) {
+		WM.markForDelete(m_walls[i]);
+	}
+
+	
+	//LM.writeLog("Deleted");
+
+	
+}
+
+void Space::addWall(Wall* p_wall)
+{
+	m_walls.push_back(p_wall);
+}
+
 void Space::createRoomInWorld()
 {
 	int x_source = getMapPos().getX() *ROOM_WIDTH;
@@ -107,7 +136,7 @@ void Space::createRoomInWorld()
 		int y_diff = r.getPos().getY() - getMapPos().getY();
 		if (r.isConnected()) {
 			// Create connected wall
-			LM.writeLog("Creating an opening wall");
+			//LM.writeLog("Creating an opening wall");
 			float x_pos1 = (x_source + (ROOM_WIDTH / 2.0f) + (y_diff * (5.0f * ROOM_WIDTH / 16.0f)) + (x_diff * ROOM_WIDTH/2.0f));
 			float y_pos1 = (y_source + (ROOM_HEIGHT / 2.0f) + (x_diff * (5.0f * ROOM_HEIGHT / 16.0f)) + (y_diff * ROOM_HEIGHT/2.0f));
 			float x_pos2 = (x_source + (ROOM_WIDTH / 2.0f) - (y_diff * (5.0f * ROOM_WIDTH / 16.0f)) + (x_diff * ROOM_WIDTH / 2.0f));
@@ -116,22 +145,28 @@ void Space::createRoomInWorld()
 			Wall* p_wall;
 			p_wall = new Wall((abs(y_diff) * ROOM_WIDTH)/3.0f, (abs(x_diff) * ROOM_HEIGHT)/3.0f);
 			p_wall->setPosition(df::Vector(x_pos1,y_pos1));
-			p_wall = new Wall((abs(y_diff) * ROOM_WIDTH)/3.0f, (abs(x_diff) * ROOM_HEIGHT)/3.0f);
-			p_wall->setPosition(df::Vector(x_pos2,y_pos2));
+			addWall(p_wall);
+			Wall* p_wall2;
+			p_wall2 = new Wall((abs(y_diff) * ROOM_WIDTH)/3.0f, (abs(x_diff) * ROOM_HEIGHT)/3.0f);
+			p_wall2->setPosition(df::Vector(x_pos2,y_pos2));
+			addWall(p_wall2);
+
 		}
 		else {
-			LM.writeLog("Creating a solid wall");
+			//LM.writeLog("Creating a solid wall");
 			int x_pos = (x_source + (ROOM_WIDTH / 2.0f)) + (x_diff * (ROOM_WIDTH / 2.0f));
 			int y_pos = (y_source + (ROOM_HEIGHT / 2.0f)) + (y_diff * (ROOM_HEIGHT / 2.0f));
 			Wall* p_wall;
 			p_wall = new Wall(abs(y_diff) * ROOM_WIDTH, abs(x_diff) * ROOM_HEIGHT);
 			p_wall->setPosition(df::Vector(x_pos,y_pos));
-			LM.writeLog("Wall created at %d, %d", x_pos, y_pos);
+			addWall(p_wall);
+			//LM.writeLog("Wall created at %d, %d", x_pos, y_pos);
 
 		}
 
 
 	}
+	//LM.writeLog("Room created");
 
 }
 
@@ -143,7 +178,7 @@ void Space::createHallwayInWorld()
 		int x_diff = r.getPos().getX() - getMapPos().getX();
 		int y_diff = r.getPos().getY() - getMapPos().getY();
 		if (r.isConnected()) {
-			LM.writeLog("Creating an opening hall");
+			//LM.writeLog("Creating an opening hall");
 			float x_pos1 = (x_source + (ROOM_WIDTH/2.0f) + (x_diff * (5.0f * ROOM_WIDTH / 16.0f)) + (y_diff * (ROOM_WIDTH / 8.0f)));
 			float y_pos1 = (y_source + (ROOM_HEIGHT/2.0f) + (y_diff * (5.0f * ROOM_HEIGHT / 16.0f)) + (x_diff * (ROOM_HEIGHT / 8.0f)));
 			float x_pos2 = (x_source + (ROOM_WIDTH/2.0f) + (x_diff * (5.0f * ROOM_WIDTH / 16.0f)) - (y_diff * (ROOM_WIDTH / 8.0f)));
@@ -152,16 +187,20 @@ void Space::createHallwayInWorld()
 			Wall* p_wall;
 			p_wall = new Wall(abs(x_diff) * (3.0 * ROOM_WIDTH/8.0f), abs(y_diff) * (3.0 * ROOM_HEIGHT/8.0f));
 			p_wall->setPosition(df::Vector(x_pos1, y_pos1));
-			p_wall = new Wall(abs(x_diff) * (3.0 * ROOM_WIDTH/8.0f), abs(y_diff) * (3.0 * ROOM_HEIGHT/8.0f));
-			p_wall->setPosition(df::Vector(x_pos2, y_pos2));
+			addWall(p_wall);
+			Wall* p_wall2;
+			p_wall2 = new Wall(abs(x_diff) * (3.0 * ROOM_WIDTH/8.0f), abs(y_diff) * (3.0 * ROOM_HEIGHT/8.0f));
+			p_wall2->setPosition(df::Vector(x_pos2, y_pos2));
+			addWall(p_wall2);
 		}
 		else {
-			LM.writeLog("Creating a solid hall");
+			//LM.writeLog("Creating a solid hall");
 			int x_pos = (x_source + (ROOM_WIDTH / 2.0f) + (x_diff *(ROOM_WIDTH / 8.0f)));
 			int y_pos = (y_source + (ROOM_HEIGHT / 2.0f) + (y_diff *(ROOM_HEIGHT / 8.0f)));
 			Wall* p_wall;
 			p_wall = new Wall(abs(y_diff) * (ROOM_WIDTH/4.0f), abs(x_diff) * (ROOM_HEIGHT/4.0f));
 			p_wall->setPosition(df::Vector(x_pos,y_pos));
+			addWall(p_wall);
 		}
 	}
 	
