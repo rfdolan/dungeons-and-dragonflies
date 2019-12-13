@@ -7,7 +7,10 @@
 #define HUNGER_STRING "Hunger"
 
 #define HIT_RATE 10
-#define STEP_RATE 50
+#define STEP_RATE 75
+#define BIG_FOOD_VAL 10
+#define FOOD_VAL 3
+#define MONSTER_DAMAGE 3
 
 class Hunger : public df::ViewObject {
 private:

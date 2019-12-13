@@ -60,7 +60,7 @@ int Hunger::eventHandler(const df::Event* p_e) {
 
 	//decrease hunger if hero uses attack 
 	if (p_e->getType() == HERO_MOVED_EVENT) {
-		setValue(getValue() - 5); //decrease by 1.
+		setValue(getValue() - MONSTER_DAMAGE); //decrease by 1.
 		
 		//check if game over 
 		if (!isDead && getValue() < 1) {
@@ -75,13 +75,13 @@ int Hunger::eventHandler(const df::Event* p_e) {
 
 	//increase hunger if hero finds small food
 	if (p_e->getType() == FOOD_FOUND_EVENT) {
-		setValue(getValue() + 3);
+		setValue(getValue() + FOOD_VAL);
 		return 1;
 	}
 	
 	//increase hunger if hero finds big food 
 	if (p_e->getType() == BIG_FOOD_EVENT) {
-		setValue(getValue() + 10);
+		setValue(getValue() + BIG_FOOD_VAL);
 		return 1; 
 	}
 
@@ -93,7 +93,7 @@ void Hunger::playerHit() {
 	
 	//check if it is time to decrease 
 	if (hitDecreaseRate < 1) {
-		setValue(getValue() - 5);
+		setValue(getValue() - MONSTER_DAMAGE);
 		hitDecreaseRate = HIT_RATE;  //reset hit decrease rate 
 
 		//check if game over 
