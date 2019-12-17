@@ -20,21 +20,21 @@ class Map : public df::Object
 {
 private:
 	std::vector<Space> spaces;
-	Stairs *m_stairs;
+	//Stairs *m_stairs;
 	Hero* m_hero;
-	std::vector<Monster*> m_monsters;
-	std::vector<Food*> m_food;
+	//std::vector<Monster*> m_monsters;
+	//std::vector<Food*> m_food;
 	
 	df::Vector generateMove(df::Vector curr_pos);
 	bool placeStairs(df::Vector start_pos);
 	bool placeMonsters();
 	bool placeFood();
 	void initialize();
-	void deleteMonsters();
-	void addMonster(Monster* p_monster);
-	void addFood(Food* p_food);
-	void deleteFood();
-	void deleteObject(EventDeleteInstance* p_delete);
+	//void deleteMonsters();
+	//void addMonster(Monster* p_monster);
+	//void addFood(Food* p_food);
+	//void deleteFood();
+	//void deleteObject(EventDeleteInstance* p_delete);
 
 public:
 	Map();
@@ -42,8 +42,8 @@ public:
 	void setHero(Hero* p_hero);
 	Hero* getHero() const;
 
-	void setStairs(Stairs* p_stairs);
-	Stairs* getStairs() const;
+	//void setStairs(Stairs* p_stairs);
+	//Stairs* getStairs() const;
 
 	// Add a space to the space array, replacing a space if one already exists at the given location
 	void addSpace(Space s);

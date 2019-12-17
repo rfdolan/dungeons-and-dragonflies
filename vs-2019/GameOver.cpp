@@ -10,17 +10,15 @@
 #include "GameStart.h"
 #include "Map.h"
 
-GameOver::GameOver(Map* m, Hero* hero) {
+GameOver::GameOver() {
 
-	m_map = m;
-	m_p_hero = hero;
 
 	//set type 
 	setType("GameOver");
 	setVisible(true);
 
 	//set time to live
-	time_to_live = 300; //length of game over song?
+	time_to_live = 100; //length of game over song?
 
 	// Register for step event.
 	registerInterest(df::STEP_EVENT);
@@ -30,13 +28,23 @@ GameOver::GameOver(Map* m, Hero* hero) {
 	//df::Sound* p_sound = RM.getSound("game over");
 	//p_sound->play();
 	
+	// Delete everything that isn't this, the hero (now as grave) and the floor num
+	df::ObjectList allObjs = WM.getAllObjects();
+	df::ObjectListIterator it = df::ObjectListIterator(&allObjs);
+	for (it.first(); !it.isDone(); it.next()) {
+		df::Object* curr = it.currentObject();
+		if ((curr->getType() != "GameOver") && 
+			(curr->getType() != "Hero") &&
+			curr->getType() != "FloorNum") {
+			WM.markForDelete(it.currentObject());
+		}
+	}
 
 }
 
 // When done, game over so reset things for GameStart.
 GameOver::~GameOver() {
 	LM.writeLog("Deleting game over object");
-	WM.markForDelete(m_p_hero);
 
 	new GameStart();
 }
@@ -56,20 +64,25 @@ int GameOver::eventHandler(const df::Event* p_e) {
 
 // Count down to end of message.
 void GameOver::step() {
-	/*
-	LM.writeLog("Steppin in gameover");
+	
+	//LM.writeLog("Steppin in gameover");
 	time_to_live--;
-	LM.writeLog("Time to live is %d", time_to_live);
+	//LM.writeLog("Time to live is %d", time_to_live);
 	if (time_to_live <= 0) {
 		LM.writeLog("Game over is done living");
-		WM.markForDelete(this);
+		// Delete everything
+		df::ObjectList all = WM.getAllObjects();
+		df::ObjectListIterator it = df::ObjectListIterator(&all);
+		for (it.first(); !it.isDone(); it.next()) {
+			WM.markForDelete(it.currentObject());
+		}
 	}
-	*/
+	
 }
 
 
 // Override default draw so as not to display "value".
 int GameOver::draw() {
-	DM.drawCh(getPosition(), 'x', df::WHITE);
+	//DM.drawCh(getPosition(), 'x', df::WHITE);
 	return 0;
 }

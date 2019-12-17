@@ -78,10 +78,8 @@ int GameStart::eventHandler(const df::Event* p_e) {
 		return 1;
 	}
 
-	/*
 	if (p_e->getType() == GAME_OVER_EVENT) {
-		new GameOver(m_map, m_p_hero);
-		WM.markForDelete(this);
+		new GameOver();
 		df::Vector v(getPosition().getX(), getPosition().getY());
 		df::Box b;
 		b.setCorner(v);
@@ -93,7 +91,6 @@ int GameStart::eventHandler(const df::Event* p_e) {
 		//new GameStart(m_p_hero);
 		
 	}
-*/
 	return  0;
 }
 

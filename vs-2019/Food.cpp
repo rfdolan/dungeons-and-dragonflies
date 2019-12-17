@@ -87,8 +87,11 @@ void Food::found(const df::EventCollision* p_collision_event) {
 			EventFoodFound foodFound;
 			WM.onEvent(&foodFound);
 		}
+		/*
 		EventDeleteInstance e = EventDeleteInstance(p_collision_event->getObject2());
 		WM.onEvent(&e);
+		*/
+		WM.markForDelete(this);
 	}
 
 	//other hero case 
@@ -106,7 +109,8 @@ void Food::found(const df::EventCollision* p_collision_event) {
 			WM.onEvent(&foodFound);
 		}
 
-		EventDeleteInstance e = EventDeleteInstance(p_collision_event->getObject1());
-		WM.onEvent(&e);
+		//EventDeleteInstance e = EventDeleteInstance(p_collision_event->getObject1());
+		//WM.onEvent(&e);
+		WM.markForDelete(this);
 	}
 }

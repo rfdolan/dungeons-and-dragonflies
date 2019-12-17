@@ -240,8 +240,11 @@ void Monster::hit(const df::EventCollision* p_collision_event) {
 		WM.onEvent(&monsterHit);
 
 		if (health < 1) { //monster is dead 
+			/*
 			EventDeleteInstance e = EventDeleteInstance(this);
 			WM.onEvent(&e);
+			*/
+			WM.markForDelete(this);
 			
 		}
 	}
@@ -280,8 +283,11 @@ void Monster::hit(const df::EventCollision* p_collision_event) {
 		
 
 		if (health < 1) { //monster is dead 
+			/*
 			EventDeleteInstance e = EventDeleteInstance(this);
 			WM.onEvent(&e);
+			*/
+			WM.markForDelete(this);
 		}
 	}
 }

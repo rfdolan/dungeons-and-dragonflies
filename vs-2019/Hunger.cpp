@@ -14,17 +14,37 @@
 #include "EventBigFood.h"
 #include "EventGameOver.h"
 
+void Hunger::step()
+{
+	if (!isDead && getValue() < 1) {
+		isDead = true;
+		EventGameOver gameOver;
+		WM.onEvent(&gameOver);
+	}
+	if (getValue() < 25) {
+		setColor(STARVING_COLOR);
+	}
+	else if (getValue() < 50) {
+		setColor(HUNGRY_COLOR);
+	}
+	else {
+		setColor(FULL_COLOR);
+	}
+}
+
 Hunger::Hunger() {
 	//view object	
 	setLocation(df::TOP_LEFT);
 	setViewString(HUNGER_STRING);
-	setColor(df::WHITE);
+	setColor(FULL_COLOR);
 	setValue(100);
+	setType("Hunger");
 	
 	//decrease rate 
 	hitDecreaseRate = HIT_RATE;
 	moveDecreaseRate = STEP_RATE;
 	isDead = false;
+
 	//decrease hunger when player moves 
 	registerInterest(HERO_MOVED_EVENT);
 
@@ -40,6 +60,7 @@ Hunger::Hunger() {
 
 	//want to know if big food was found 
 	registerInterest(BIG_FOOD_EVENT);
+	registerInterest(df::STEP_EVENT);
 }
 
 //Handle event
@@ -61,15 +82,12 @@ int Hunger::eventHandler(const df::Event* p_e) {
 	//decrease hunger if hero uses attack 
 	if (p_e->getType() == HERO_MOVED_EVENT) {
 		setValue(getValue() - MONSTER_DAMAGE); //decrease by 1.
-		
-		//check if game over 
-		if (!isDead && getValue() < 1) {
-			isDead = true;
-			EventGameOver gameOver;
-			WM.onEvent(&gameOver);
-			WM.markForDelete(this);
-		}
 		return 1;
+	}
+	if (p_e->getType() == df::STEP_EVENT) {
+		step();
+		return 1;
+
 	}
 
 
@@ -96,13 +114,6 @@ void Hunger::playerHit() {
 		setValue(getValue() - MONSTER_DAMAGE);
 		hitDecreaseRate = HIT_RATE;  //reset hit decrease rate 
 
-		//check if game over 
-		if (!isDead && getValue() < 1) {
-			isDead = true;
-			EventGameOver gameOver;
-			WM.onEvent(&gameOver);
-			WM.markForDelete(this);
-		}
 	}
 	else {
 		hitDecreaseRate--;
@@ -116,15 +127,9 @@ void Hunger::playerMoved(EventHeroMoved *h) {
 		setValue(getValue() - 1);
 		moveDecreaseRate = STEP_RATE; //reset move decrease rate
 
-		//check if game over 
-		if (!isDead && getValue() < 1) {
-			isDead = true;
-			EventGameOver gameOver;
-			WM.onEvent(&gameOver);
-			WM.markForDelete(this);
-		}
 	}
 	else {
+		// Decrease move counter 3 times as fast when player is running
 		if (h->getHero()->isRunning) {
 			moveDecreaseRate--;
 			moveDecreaseRate--;
