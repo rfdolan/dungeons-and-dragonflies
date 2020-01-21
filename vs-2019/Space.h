@@ -41,15 +41,15 @@ public:
 
 	std::vector<Wall*> getWalls();
 	// Delete all associated walls
-	void deleteWalls();
+	//void deleteWalls();
 
-	void addWall(Wall* p_wall);
+	//void addWall(Wall* p_wall);
 
 private:
 	PieceType m_piece_type;
 	std::vector<Relationship> m_relationships;
 	df::Vector map_pos;
-	std::vector<Wall*> m_walls;
+	//std::vector<Wall*> m_walls;
 	void createRoomInWorld();
 	void createHallwayInWorld();
 

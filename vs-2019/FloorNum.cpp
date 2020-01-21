@@ -8,6 +8,7 @@ FloorNum::FloorNum() {
 	setViewString(FLOOR_STRING);
 	setColor(df::WHITE);
 	setValue(1);
+	setType("FloorNum");
 
 	registerInterest(STAIRS_EVENT);
 	registerInterest(GAME_OVER_EVENT);
@@ -19,7 +20,7 @@ int FloorNum::eventHandler(const df::Event* p_e) {
 		return 1;
 	}
 	if (p_e->getType() == GAME_OVER_EVENT) {
-		WM.markForDelete(this);
+		//WM.markForDelete(this);
 		return 1;
 	}
 

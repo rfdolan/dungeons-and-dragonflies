@@ -14,7 +14,7 @@ Map::Map()
 {
 	setType("map");
 	spaces = std::vector<Space>();
-	m_stairs = nullptr;
+	//m_stairs = nullptr;
 
 	registerInterest(STAIRS_EVENT);
 	registerInterest(DELETE_EVENT);
@@ -31,6 +31,7 @@ Hero* Map::getHero() const
 	return m_hero;
 }
 
+/*
 void Map::setStairs(Stairs* p_stairs)
 {
 	m_stairs = p_stairs;
@@ -40,6 +41,7 @@ Stairs* Map::getStairs() const
 {
 	return m_stairs;
 }
+*/
 
 void Map::addSpace(Space s)
 {
@@ -162,19 +164,19 @@ bool Map::placeMonsters() {
 			{
 				Monster* p_monster3 = new Monster(m_hero);
 				p_monster3->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 60 + (rand() % 10), room_pos.getY() * ROOM_HEIGHT + 9 + (rand() % 2)));
-				addMonster(p_monster3);
+				//addMonster(p_monster3);
 			}
 			case 2:
 			{
 				Monster* p_monster2 = new Monster(m_hero);
 				p_monster2->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 60 + (rand() % 10), room_pos.getY() * ROOM_HEIGHT + 17 + (rand() % 2)));
-				addMonster(p_monster2);
+				//addMonster(p_monster2);
 			}
 			case 1:
 			{
 				Monster* p_monster = new Monster(m_hero);
 				p_monster->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 15 + (rand() % 4), room_pos.getY() * ROOM_HEIGHT + 17 + (rand() % 2)));
-				addMonster(p_monster);
+				//addMonster(p_monster);
 			}
 			case 0:
 				break;
@@ -197,19 +199,19 @@ bool Map::placeFood()
 			{
 				Food* p_food = new Food(rand() % 3);
 				p_food->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 15 + (rand() % 4), room_pos.getY() * ROOM_HEIGHT + 17 + (rand() % 2)));
-				addFood(p_food);
+				//addFood(p_food);
 			}
 			case 2:
 			{
 				Food* p_food2 = new Food(rand() % 3);
 				p_food2->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 60 + (rand() % 10), room_pos.getY() * ROOM_HEIGHT + 17 + (rand() % 2)));
-				addFood(p_food2);
+				//addFood(p_food2);
 			}
 			case 1:
 			{
 				Food* p_food3 = new Food(rand() % 3);
 				p_food3->setPosition(df::Vector(room_pos.getX() * ROOM_WIDTH + 60 + (rand() % 10), room_pos.getY() * ROOM_HEIGHT + 9 + (rand() % 2)));
-				addFood(p_food3);
+				//addFood(p_food3);
 			}
 			case 0:
 				break;
@@ -234,9 +236,11 @@ bool Map::placeStairs(df::Vector start_pos) {
 	m_big_food = bigFood;
 	LM.writeLog("Placed  big food in room (%d, %d)", start_pos.getX(), start_pos.getY());
 	*/
+	/*
 	Stairs* stairs = new Stairs( df::Vector(start_pos.getX() * ROOM_WIDTH + 25, start_pos.getY() * ROOM_HEIGHT + 15));
 	m_stairs = stairs;
 	return true;
+	*/
 	
 	// Place stairs
 	std::vector<Space> spaces =getSpaces();
@@ -249,7 +253,7 @@ bool Map::placeStairs(df::Vector start_pos) {
 					df::Vector room_pos = it->getMapPos();
 					// Place stairs
 					Stairs* stairs = new Stairs(df::Vector(room_pos.getX() * ROOM_WIDTH + 10, room_pos.getY() * ROOM_HEIGHT + 5));
-					m_stairs = stairs;
+					//m_stairs = stairs;
 					LM.writeLog("Placed stairs in room (%d, %d)", room_pos.getX(), room_pos.getY());
 					return true;
 				}
@@ -268,12 +272,28 @@ void Map::initialize()
 		spaces.pop_back();
 	}
 
+	// Delete all the monsters, food, and stairs.
+	df::ObjectList all = WM.getAllObjects();
+	df::ObjectListIterator it = df::ObjectListIterator(&all);
+	for (it.first(); !it.isDone(); it.next()) {
+		df::Object *curr = it.currentObject();
+		if (curr->getType() == "Stairs" ||
+			curr->getType() == "Food" ||
+			curr->getType() == "Monster" ||
+			curr->getType() == "Wall") {
+			WM.markForDelete(curr);
+		}
+		
+
+	}
+	/*
 	// Delete stairs
 	WM.markForDelete(m_stairs);
 	// Delete monsters
 	deleteMonsters();
 	// Delete food
 	deleteFood();
+	*/
 	
 }
 
@@ -339,17 +359,20 @@ int Map::eventHandler(const df::Event* p_e)
 		generateMap(m_hero);
 		return 1;
 	}
+	/*
 	if (p_e->getType() == DELETE_EVENT) {
 
 		deleteObject((EventDeleteInstance*)p_e);
 		return 1;
 
 	}
+	*/
 	if (p_e->getType() == GAME_OVER_EVENT) {
 		initialize();
 	}
 	return 0;
 }
+/*
 std::vector<Monster*> Map::getMonsters()
 {
 	return m_monsters;
@@ -418,3 +441,4 @@ void Map::deleteObject(EventDeleteInstance* p_delete)
 	}
 
 }
+*/

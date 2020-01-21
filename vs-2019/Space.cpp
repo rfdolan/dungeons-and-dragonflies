@@ -12,7 +12,7 @@ Space::Space()
 
 Space::~Space()
 {
-	deleteWalls();
+	//deleteWalls();
 }
 
 Space::Space(df::Vector new_pos, PieceType type)
@@ -104,6 +104,7 @@ void Space::createInWorld()
 
 }
 
+/*
 std::vector<Wall*> Space::getWalls()
 {
 	return m_walls;
@@ -126,6 +127,7 @@ void Space::addWall(Wall* p_wall)
 {
 	m_walls.push_back(p_wall);
 }
+*/
 
 void Space::createRoomInWorld()
 {
@@ -145,11 +147,11 @@ void Space::createRoomInWorld()
 			Wall* p_wall;
 			p_wall = new Wall((abs(y_diff) * ROOM_WIDTH)/3.0f, (abs(x_diff) * ROOM_HEIGHT)/3.0f);
 			p_wall->setPosition(df::Vector(x_pos1,y_pos1));
-			addWall(p_wall);
+			//addWall(p_wall);
 			Wall* p_wall2;
 			p_wall2 = new Wall((abs(y_diff) * ROOM_WIDTH)/3.0f, (abs(x_diff) * ROOM_HEIGHT)/3.0f);
 			p_wall2->setPosition(df::Vector(x_pos2,y_pos2));
-			addWall(p_wall2);
+			//addWall(p_wall2);
 
 		}
 		else {
@@ -159,7 +161,7 @@ void Space::createRoomInWorld()
 			Wall* p_wall;
 			p_wall = new Wall(abs(y_diff) * ROOM_WIDTH, abs(x_diff) * ROOM_HEIGHT);
 			p_wall->setPosition(df::Vector(x_pos,y_pos));
-			addWall(p_wall);
+			//addWall(p_wall);
 			//LM.writeLog("Wall created at %d, %d", x_pos, y_pos);
 
 		}
@@ -187,11 +189,11 @@ void Space::createHallwayInWorld()
 			Wall* p_wall;
 			p_wall = new Wall(abs(x_diff) * (3.0 * ROOM_WIDTH/8.0f), abs(y_diff) * (3.0 * ROOM_HEIGHT/8.0f));
 			p_wall->setPosition(df::Vector(x_pos1, y_pos1));
-			addWall(p_wall);
+			//addWall(p_wall);
 			Wall* p_wall2;
 			p_wall2 = new Wall(abs(x_diff) * (3.0 * ROOM_WIDTH/8.0f), abs(y_diff) * (3.0 * ROOM_HEIGHT/8.0f));
 			p_wall2->setPosition(df::Vector(x_pos2, y_pos2));
-			addWall(p_wall2);
+			//addWall(p_wall2);
 		}
 		else {
 			//LM.writeLog("Creating a solid hall");
@@ -200,7 +202,7 @@ void Space::createHallwayInWorld()
 			Wall* p_wall;
 			p_wall = new Wall(abs(y_diff) * (ROOM_WIDTH/4.0f), abs(x_diff) * (ROOM_HEIGHT/4.0f));
 			p_wall->setPosition(df::Vector(x_pos,y_pos));
-			addWall(p_wall);
+			//addWall(p_wall);
 		}
 	}
 	
