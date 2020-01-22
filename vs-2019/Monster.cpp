@@ -206,48 +206,15 @@ void Monster::hit(const df::EventCollision* p_collision_event) {
 		WM.onEvent(&hitPlayer);
 	}
 
-	//if attack obj decrease health 
-	if ((p_collision_event->getObject1()->getType()) == "AttackObj") {
-		//decrease health 
-		m_damage_countdown--;
-
-		if (m_damage_countdown < 1) { //time to loose health
-			health--;
-			m_damage_countdown = TAKE_DAMAGE; //reset
-			currentSprite++;
-			//change sprite 
-			switch (currentSprite) {
-			case 1:
-				setSprite("monster-hurt2");
-				stopAnimation(false);
-				break;
-			case 2:
-				setSprite("monster-hurt3");
-				stopAnimation(false);
-				break;
-			case 3:
-				setSprite("monster-hurt3");
-				stopAnimation(false);
-				break;
-			default:
-				//setSprite("monster-hurt3");
-				break;
-			}
-		}
-
-		//send event indicating that at least one monster was hit 
-		EventMonsterHit monsterHit;
-		WM.onEvent(&monsterHit);
-
-		if (health < 1) { //monster is dead 
-			/*
-			EventDeleteInstance e = EventDeleteInstance(this);
-			WM.onEvent(&e);
-			*/
-			WM.markForDelete(this);
-			
-		}
+	if (p_collision_event->getObject1()->getType() == "AttackObj") {
+		AttackRange* range = (AttackRange*)p_collision_event->getObject1();
+		damaged(range);
 	}
+	if (p_collision_event->getObject2()->getType() == "AttackObj") {
+		AttackRange* range = (AttackRange*)p_collision_event->getObject2();
+		damaged(range);
+	}
+	/*
 	if ((p_collision_event->getObject2()->getType()) == "AttackObj") {
 		
 		//decrease health 
@@ -286,8 +253,54 @@ void Monster::hit(const df::EventCollision* p_collision_event) {
 			/*
 			EventDeleteInstance e = EventDeleteInstance(this);
 			WM.onEvent(&e);
-			*/
 			WM.markForDelete(this);
 		}
 	}
+	*/
+}
+
+void Monster::damaged(AttackRange* range)
+{
+
+	//decrease health 
+	m_damage_countdown--;
+
+	if (m_damage_countdown < 1) { //time to loose health
+		health--;
+		m_damage_countdown = TAKE_DAMAGE; //reset
+		currentSprite++;
+		//change sprite 
+		switch (currentSprite) {
+		case 1:
+			setSprite("monster-hurt2");
+			stopAnimation(false);
+			break;
+		case 2:
+			setSprite("monster-hurt3");
+			stopAnimation(false);
+			break;
+		case 3:
+			setSprite("monster-hurt3");
+			stopAnimation(false);
+			break;
+		default:
+			//setSprite("monster-hurt3");
+			break;
+		}
+	}
+
+	//send event indicating that at least one monster was hit 
+	EventMonsterHit monsterHit;
+	WM.onEvent(&monsterHit);
+
+	if (health < 1) { //monster is dead 
+		/*
+		EventDeleteInstance e = EventDeleteInstance(this);
+		WM.onEvent(&e);
+		*/
+		WM.markForDelete(this);
+		
+	}
+	// Delete attack obj
+	//range->deactivate();
 }

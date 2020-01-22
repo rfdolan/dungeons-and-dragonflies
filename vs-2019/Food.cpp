@@ -1,6 +1,7 @@
 //engine
 #include "WorldManager.h"
 #include "LogManager.h"
+#include "ResourceManager.h"
 
 //game
 #include "Food.h"
@@ -79,10 +80,12 @@ void Food::found(const df::EventCollision* p_collision_event) {
 
 		//create appropriate event
 		if (m_type == 1) {  //big food 
+			RM.getSound("big_food")->play();
 			EventBigFood bigFood;
 			WM.onEvent(&bigFood);
 		}
 		else { //small food
+			RM.getSound("small_food")->play();
 			//create food found event 
 			EventFoodFound foodFound;
 			WM.onEvent(&foodFound);
@@ -100,14 +103,17 @@ void Food::found(const df::EventCollision* p_collision_event) {
 
 		//create appropriate event
 		if (m_type == 1) {  //big food 
+			RM.getSound("big_food")->play();
 			EventBigFood bigFood;
 			WM.onEvent(&bigFood);
 		}
 		else { //small food
+			RM.getSound("small_food")->play();
 			//create food found event 
 			EventFoodFound foodFound;
 			WM.onEvent(&foodFound);
 		}
+		
 
 		//EventDeleteInstance e = EventDeleteInstance(p_collision_event->getObject1());
 		//WM.onEvent(&e);

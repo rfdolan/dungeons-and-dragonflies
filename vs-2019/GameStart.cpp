@@ -18,14 +18,8 @@
 #include "Hero.h"
 
 GameStart::GameStart(){
-	Hero* h = new Hero();
-	m_p_hero = h;
-	m_p_hero->setVisible(false);
 	hasStarted = false;
 	
-	Map* m = new Map();
-	m_map = m;
-	m->setHero(m_p_hero);
 
 	//df::Box b = WM.getView();
 	//setPosition(b.getCorner());
@@ -97,8 +91,14 @@ int GameStart::eventHandler(const df::Event* p_e) {
 void GameStart::start() {
 	
 	
+	Hero* h = new Hero();
 	
-	m_p_hero->setVisible(true);
+	
+	Map* m = new Map();
+	m_map = m;
+	m->setHero(h);
+
+	
 
 
 	//Hero* hero = new Hero();
@@ -111,7 +111,7 @@ void GameStart::start() {
 
 	//Map* m = new Map();
 	// Generate world.
-	m_map->generateMap(m_p_hero);
+	m_map->generateMap(h);
 
 	RM.getMusic("ambient-1")->play();
 	setVisible(false);

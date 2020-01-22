@@ -27,7 +27,7 @@
 #define SEARCH_SPEED 0.15
 #define SENSE_DISTANCE 20
 #define CHASE_SPEED 0.25
-#define TAKE_DAMAGE 2
+#define TAKE_DAMAGE 7
 
 class Monster : public df::Object {
 private:
@@ -50,6 +50,7 @@ public:
 	Hero* getHero();
 	void stopAnimation(bool stop);
 	void hit(const df::EventCollision* p_collision_event);
+	void damaged(AttackRange* range);
 	df::Vector seeHero();
 	bool senseHero();
 	int getMoveCountdown();

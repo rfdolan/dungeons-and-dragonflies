@@ -27,11 +27,13 @@ Hero::Hero()
 	setSolidness(df::HARD);
 	walkSprite = true;
 	m_attackObj = nullptr;
-	m_attackObj_lifetime = ATTACK_OBJ_LIFETIME;
+	is_attacking = false;
+	//m_attackObj_lifetime = ATTACK_OBJ_LIFETIME;
 
 	isDead = false;
 
 	isRunning = false;
+	attack_countdown = 0;
 	
 
 	// Need to control Hero with keyboard.
@@ -89,8 +91,8 @@ int Hero::eventHandler(const df::Event* p_e)
 			LM.writeLog("Player issued an efficient attack");
 
 			//reset attack obj 
-			m_attackObj->setSolidness(df::SPECTRAL);
-			m_attackObj_lifetime = ATTACK_OBJ_LIFETIME;
+			//m_attackObj->setSolidness(df::SPECTRAL);
+			//m_attackObj_lifetime = ATTACK_OBJ_LIFETIME;
 		}
 		return 1;
 	}
@@ -244,11 +246,12 @@ void Hero::move(const df::EventKeyboard* p_keyboard_event)
 		
 	case df::Keyboard::A:
 		if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
-			if (m_attackObj_lifetime == ATTACK_OBJ_LIFETIME) {
+			if (!is_attacking) {
 				int x = getPosition().getX();
 				int y = getPosition().getY();
 				df::Vector v(x, y);
-				m_attackObj = new AttackRange(v);
+				new AttackRange(v);
+				is_attacking = true;
 				//m_attackObj_lifetime = ATTACK_OBJ_LIFETIME; //reset life
 			}
 		}
@@ -282,7 +285,14 @@ void Hero::step()
 		setSprite("walk");
 		walkSprite = true;
 	}
+	if (is_attacking) {
+		attack_countdown--;
+		if (attack_countdown < 1) {
+			is_attacking = false;
+		}
 
+	}
+/*
 	//check if time to delete attack obj
 	if (m_attackObj != nullptr) {
 		m_attackObj_lifetime--; //decrease its life 
@@ -294,6 +304,7 @@ void Hero::step()
 		//m_attackObj->setSolidness(df::SPECTRAL);
 		m_attackObj_lifetime = ATTACK_OBJ_LIFETIME; //reset
 	}
+	*/
 }
 
 void Hero::col(const df::EventCollision* p_collision_event)

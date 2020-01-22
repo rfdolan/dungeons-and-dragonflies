@@ -81,6 +81,9 @@ void loadResources() {
 
 	//other
 	RM.loadMusic("../music/ambient-1.wav", "ambient-1");
+	RM.loadSound("../music/attack.wav", "attack");
+	RM.loadSound("../music/small_food.wav", "small_food");
+	RM.loadSound("../music/big_food.wav", "big_food");
 	RM.loadSprite("../sprites/attack-obj-spr.txt", "attack_obj");
 	RM.loadSprite("../sprites/game-start-spr.txt", "gamestart");
 
